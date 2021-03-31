@@ -12,3 +12,8 @@ val CarolinaBlue = Color(0xFF009FE3)
 val MiddleBlueGreen = Color(0xFFA2E8DD)
 val MediumSpringGreen = Color(0xFF32DE8A)
 val Ebony = Color(0xFF676F54)
+
+val DeepPurple300 = Color(0xFF9575CD)
+val LightBlue300 = Color(0xFF4FC3F7)
+val Teal300 = Color(0xFF4DB6AC)
+val Green300 = Color(0xFF81C784)
