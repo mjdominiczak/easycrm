@@ -22,6 +22,9 @@ import com.mancode.easycrm.data.Contact
 import com.mancode.easycrm.data.Customer
 import com.mancode.easycrm.data.customers
 import com.mancode.easycrm.ui.theme.EasyCrmTheme
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
+import org.threeten.bp.format.DateTimeFormatter
 
 @Preview
 @Composable
@@ -29,7 +32,7 @@ fun CustomerDetailsScreen(customer: Customer = customers[0]) {
     EasyCrmTheme {
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(16.dp)
         ) {
             Row(
                 modifier = Modifier
@@ -61,6 +64,18 @@ fun CustomerDetailsScreen(customer: Customer = customers[0]) {
                 )
                 for (contact in customer.contacts) {
                     ContactRow(contact)
+                }
+            }
+            Spacer(modifier = Modifier.height(24.dp))
+            Column {
+                Text(
+                    text = "Notatki:",
+                    style = MaterialTheme.typography.h6
+                )
+                for (note in customer.notes) {
+                    val dateTime = LocalDateTime.ofInstant(note.timeStamp, ZoneId.systemDefault())
+                        .format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm"))
+                    Text(text = "\n$dateTime\n${note.text}")
                 }
             }
         }
