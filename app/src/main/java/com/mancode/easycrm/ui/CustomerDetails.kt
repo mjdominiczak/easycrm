@@ -1,4 +1,4 @@
-package com.mancode.easycrm
+package com.mancode.easycrm.ui
 
 import android.content.Context
 import android.content.Intent

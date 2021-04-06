@@ -1,4 +1,4 @@
-package com.mancode.easycrm
+package com.mancode.easycrm.ui
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
