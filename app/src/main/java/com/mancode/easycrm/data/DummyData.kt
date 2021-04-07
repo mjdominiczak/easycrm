@@ -6,9 +6,10 @@ import org.threeten.bp.temporal.ChronoUnit
 
 val customers = listOf(
         Customer(
-                "Polswat",
-                Address("Przemysłowa 15", "Radom", "Polska"),
-                "https://www.polswat.pl/"
+            0,
+            "Polswat",
+            Address("Przemysłowa 15", "Radom", "Polska"),
+            "https://www.polswat.pl/"
         ).apply {
             contacts.addAll(listOf(
                     Contact("Andrzej Witczak", "500123456"),
@@ -23,9 +24,10 @@ val customers = listOf(
             dateNextContact = LocalDate.of(2021, 4, 1)
         },
         Customer(
-                "KAN-therm",
-                Address("Zdrojowa 51", "Białystok-Kleosin", "Polska"),
-                "http://pl.kan-therm.com/"
+            1,
+            "KAN-therm",
+            Address("Zdrojowa 51", "Białystok-Kleosin", "Polska"),
+            "http://pl.kan-therm.com/"
         ).apply {
             contacts.addAll(listOf(
                     Contact("Ignacy", "600456789", "polswat@polswat.pl")

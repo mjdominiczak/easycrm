@@ -7,5 +7,17 @@
     <fragment
         android:id="@+id/customersListFragment"
         android:name="com.mancode.easycrm.ui.CustomersListFragment"
-        android:label="CustomersListFragment" />
+        android:label="CustomersListFragment" >
+        <action
+            android:id="@+id/action_customersListFragment_to_customerDetailFragment"
+            app:destination="@id/customerDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/customerDetailFragment"
+        android:name="com.mancode.easycrm.ui.CustomerDetailFragment"
+        android:label="CustomerDetailFragment" >
+        <argument
+            android:name="customer_id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

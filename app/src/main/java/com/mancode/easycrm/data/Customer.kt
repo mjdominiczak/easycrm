@@ -3,6 +3,7 @@ package com.mancode.easycrm.data
 import org.threeten.bp.LocalDate
 
 data class Customer(
+    val id: Int,
     val name: String,
     val address: Address,
     val webpageUrl: String,

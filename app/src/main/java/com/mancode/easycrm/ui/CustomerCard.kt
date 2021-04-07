@@ -14,52 +14,49 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mancode.easycrm.data.Customer
 import com.mancode.easycrm.ui.theme.DeepPurple300
-import com.mancode.easycrm.ui.theme.EasyCrmTheme
 import com.mancode.easycrm.ui.theme.Ebony
 
 @Composable
-fun CustomerCard(customer: Customer) {
-    EasyCrmTheme {
-        Card(
+fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
+    Card(
+        modifier = Modifier
+            .padding(horizontal = 8.dp)
+            .padding(top = 8.dp)
+            .fillMaxWidth()
+            .clickable { onClick(customer.id) }
+            .border(
+                border = BorderStroke(1.dp, Ebony),
+                shape = RoundedCornerShape(4.dp)
+            )
+    ) {
+        Column(
             modifier = Modifier
-                .padding(horizontal = 8.dp)
-                .padding(top = 8.dp)
-                .fillMaxWidth()
-                .clickable { }
-                .border(
-                    border = BorderStroke(1.dp, Ebony),
-                    shape = RoundedCornerShape(4.dp)
-                )
+                .padding(8.dp)
         ) {
-            Column(
+            Row(
                 modifier = Modifier
-                    .padding(8.dp)
+                    .fillMaxWidth()
             ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
-                    Text(
-                        text = customer.name,
-                        style = MaterialTheme.typography.h5,
-                        modifier = Modifier.weight(0.6f)
-                    )
-                    StatusChip(
-                        text = "Zbieranie danych",
-                        modifier = Modifier.weight(0.4f)
-                    )
-                }
                 Text(
-                    text = "Ostatni kontakt: ${customer.dateLastContacted ?: "brak"}",
-                    style = MaterialTheme.typography.body2
+                    text = customer.name,
+                    style = MaterialTheme.typography.h5,
+                    modifier = Modifier.weight(0.6f)
                 )
-                Text(
-                    text = "Kolejny kontakt: ${customer.dateNextContact ?: "brak"}",
-                    style = MaterialTheme.typography.body2
+                StatusChip(
+                    text = "Zbieranie danych",
+                    modifier = Modifier.weight(0.4f)
                 )
-                Spacer(modifier = Modifier.height(8.dp))
-                CallButton(name = customer.contacts[0].name)
             }
+            Text(
+                text = "Ostatni kontakt: ${customer.dateLastContacted ?: "brak"}",
+                style = MaterialTheme.typography.body2
+            )
+            Text(
+                text = "Kolejny kontakt: ${customer.dateNextContact ?: "brak"}",
+                style = MaterialTheme.typography.body2
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            CallButton(name = customer.contacts[0].name)
         }
     }
 }

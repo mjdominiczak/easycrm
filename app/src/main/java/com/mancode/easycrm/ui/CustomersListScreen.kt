@@ -2,13 +2,18 @@ package com.mancode.easycrm.ui
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavController
 import com.mancode.easycrm.data.customers
 
 @Composable
-fun CustomersList() {
+fun CustomersList(navController: NavController) {
     Column {
         for (customer in customers) {
-            CustomerCard(customer = customer)
+            val action =
+                CustomersListFragmentDirections.actionCustomersListFragmentToCustomerDetailFragment(
+                    customer.id
+                )
+            CustomerCard(customer = customer, onClick = { navController.navigate(action) })
         }
     }
 }

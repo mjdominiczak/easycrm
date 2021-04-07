@@ -6,10 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
+import androidx.navigation.fragment.navArgs
+import com.mancode.easycrm.data.customers
 import com.mancode.easycrm.ui.theme.EasyCrmTheme
 
-class CustomersListFragment : Fragment() {
+class CustomerDetailFragment : Fragment() {
+    
+    private val args: CustomerDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,9 +22,10 @@ class CustomersListFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 EasyCrmTheme {
-                    CustomersList(findNavController())
+                    CustomerDetailsScreen(customers[args.customerId])
                 }
             }
         }
     }
+
 }
