@@ -9,12 +9,14 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        maven { url "https://dl.bintray.com/chattylabs/maven" }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.0-alpha13'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+        classpath 'com.chattylabs:versioning:0.20.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
