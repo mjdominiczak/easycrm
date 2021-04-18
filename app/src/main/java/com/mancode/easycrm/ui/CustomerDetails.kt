@@ -73,7 +73,7 @@ fun CustomerDetailsScreen(customer: Customer = customers[0]) {
                     style = MaterialTheme.typography.h6
                 )
                 for (note in customer.notes) {
-                    val dateTime = LocalDateTime.ofInstant(note.timeStamp, ZoneId.systemDefault())
+                    val dateTime = LocalDateTime.ofInstant(note.timestamp, ZoneId.systemDefault())
                         .format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm"))
                     Text(text = "\n$dateTime\n${note.text}")
                 }

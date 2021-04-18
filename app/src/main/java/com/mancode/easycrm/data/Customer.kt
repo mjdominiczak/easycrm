@@ -1,5 +1,6 @@
 package com.mancode.easycrm.data
 
+import com.mancode.easycrm.db.Note
 import org.threeten.bp.LocalDate
 
 data class Customer(
