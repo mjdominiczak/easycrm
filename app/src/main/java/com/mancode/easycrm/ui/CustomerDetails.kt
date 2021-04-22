@@ -12,10 +12,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.mancode.easycrm.data.Contact
@@ -26,9 +27,8 @@ import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
-@Preview
 @Composable
-fun CustomerDetailsScreen(customer: Customer = customers[0]) {
+fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, customer: Customer = customers[0]) {
     EasyCrmTheme {
         Column(
             modifier = Modifier
@@ -72,7 +72,8 @@ fun CustomerDetailsScreen(customer: Customer = customers[0]) {
                     text = "Notatki:",
                     style = MaterialTheme.typography.h6
                 )
-                for (note in customer.notes) {
+                val notes by viewModel.getAllNotes().collectAsState(initial = emptyList())
+                for (note in notes) {
                     val dateTime = LocalDateTime.ofInstant(note.timestamp, ZoneId.systemDefault())
                         .format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm"))
                     Text(text = "\n$dateTime\n${note.text}")

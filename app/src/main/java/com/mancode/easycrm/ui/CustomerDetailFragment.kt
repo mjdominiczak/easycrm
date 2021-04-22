@@ -6,12 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.mancode.easycrm.data.customers
 import com.mancode.easycrm.ui.theme.EasyCrmTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CustomerDetailFragment : Fragment() {
-    
+
+    private val viewModel: CustomerDetailViewModel by viewModels()
     private val args: CustomerDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -22,7 +26,7 @@ class CustomerDetailFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 EasyCrmTheme {
-                    CustomerDetailsScreen(customers[args.customerId])
+                    CustomerDetailsScreen(viewModel, customers[args.customerId])
                 }
             }
         }
