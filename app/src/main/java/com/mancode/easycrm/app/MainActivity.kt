@@ -1,7 +1,8 @@
-package com.mancode.easycrm
+package com.mancode.easycrm.app
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.mancode.easycrm.R
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/customersListFragment"
-        android:name="com.mancode.easycrm.ui.CustomersListFragment"
+        android:name="com.mancode.easycrm.ui.list.CustomersListFragment"
         android:label="CustomersListFragment" >
         <action
             android:id="@+id/action_customersListFragment_to_customerDetailFragment"
@@ -14,7 +14,7 @@
     </fragment>
     <fragment
         android:id="@+id/customerDetailFragment"
-        android:name="com.mancode.easycrm.ui.CustomerDetailFragment"
+        android:name="com.mancode.easycrm.ui.details.CustomerDetailFragment"
         android:label="CustomerDetailFragment" >
         <argument
             android:name="customer_id"

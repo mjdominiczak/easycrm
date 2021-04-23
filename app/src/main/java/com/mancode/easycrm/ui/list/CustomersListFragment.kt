@@ -1,4 +1,4 @@
-package com.mancode.easycrm.ui
+package com.mancode.easycrm.ui.list
 
 import android.os.Bundle
 import android.view.LayoutInflater

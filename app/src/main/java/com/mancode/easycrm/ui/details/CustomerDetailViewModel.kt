@@ -1,4 +1,4 @@
-package com.mancode.easycrm.ui
+package com.mancode.easycrm.ui.details
 
 import androidx.lifecycle.ViewModel
 import com.mancode.easycrm.db.EasyCrmDatabase

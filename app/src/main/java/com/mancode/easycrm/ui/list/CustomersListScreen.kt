@@ -1,4 +1,4 @@
-package com.mancode.easycrm.ui
+package com.mancode.easycrm.ui.list
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable

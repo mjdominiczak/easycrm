@@ -1,4 +1,4 @@
-package com.mancode.easycrm.ui
+package com.mancode.easycrm.ui.details
 
 import android.content.Context
 import android.content.Intent
@@ -22,6 +22,7 @@ import androidx.core.content.ContextCompat
 import com.mancode.easycrm.data.Contact
 import com.mancode.easycrm.data.Customer
 import com.mancode.easycrm.data.customers
+import com.mancode.easycrm.ui.list.StatusChip
 import com.mancode.easycrm.ui.theme.EasyCrmTheme
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
@@ -31,12 +32,10 @@ import org.threeten.bp.format.DateTimeFormatter
 fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, customer: Customer = customers[0]) {
     EasyCrmTheme {
         Column(
-            modifier = Modifier
-                .padding(16.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
                     text = customer.name,
