@@ -6,6 +6,8 @@ import com.mancode.easycrm.db.Note
 import com.mancode.easycrm.db.NoteDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 import javax.inject.Inject
 
 @HiltViewModel
@@ -13,11 +15,15 @@ class CustomerDetailViewModel @Inject constructor(
     private val noteDao: NoteDao
 ) : ViewModel() {
 
-    fun getAllNotes() = noteDao.getAllNotes()
+    var customerId: Int? = null
 
-    fun insertNote(note: Note) {
+    fun getNotes() = noteDao.getNotesForCustomer(customerId!!)
+
+    fun insertNote(time: LocalDateTime, note: String) {
         viewModelScope.launch {
-            noteDao.insertNote(note)
+            noteDao.insertNote(
+                Note(0, customerId!!, time.atZone(ZoneId.systemDefault()).toInstant(), note)
+            )
         }
     }
 }

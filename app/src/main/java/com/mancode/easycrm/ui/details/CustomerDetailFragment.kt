@@ -14,8 +14,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.mancode.easycrm.R
-import com.mancode.easycrm.data.customers
 import com.mancode.easycrm.ui.theme.EasyCrmTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -30,17 +28,24 @@ class CustomerDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.customerId = args.customerId
         return ComposeView(requireContext()).apply {
             setContent {
                 EasyCrmTheme {
                     Scaffold(
                         floatingActionButton = {
-                            FloatingActionButton(onClick = { findNavController().navigate(R.id.action_customerDetailFragment_to_noteDialog) }) {
+                            FloatingActionButton(onClick = {
+                                val dirs =
+                                    CustomerDetailFragmentDirections.actionCustomerDetailFragmentToNoteDialog(
+                                        viewModel.customerId!!
+                                    )
+                                findNavController().navigate(dirs)
+                            }) {
                                 Icon(imageVector = Icons.Filled.Add, contentDescription = "")
                             }
                         }
                     ) {
-                        CustomerDetailsScreen(viewModel, customers[args.customerId])
+                        CustomerDetailsScreen(viewModel)
                     }
                 }
             }

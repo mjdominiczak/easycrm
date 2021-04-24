@@ -9,9 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.mancode.easycrm.db.Note
 import org.threeten.bp.LocalDateTime
-import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
@@ -21,7 +19,7 @@ fun NoteEditor(viewModel: CustomerDetailViewModel, navController: NavController)
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        var clicked by remember { mutableStateOf(false)}
+        var clicked by remember { mutableStateOf(false) }
         val time = remember { LocalDateTime.now() }
         Text(text = time.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm")))
         Spacer(modifier = Modifier.height(8.dp))
@@ -37,13 +35,7 @@ fun NoteEditor(viewModel: CustomerDetailViewModel, navController: NavController)
         Button(
             onClick = {
                 if (note.isNotBlank()) {
-                    viewModel.insertNote(
-                        Note(
-                            0,
-                            time.atZone(ZoneId.systemDefault()).toInstant(),
-                            note
-                        )
-                    )
+                    viewModel.insertNote(time, note)
                     navController.navigateUp()
                 } else {
                     clicked = true

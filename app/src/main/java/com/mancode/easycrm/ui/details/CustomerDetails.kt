@@ -30,7 +30,8 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
-fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, customer: Customer = customers[0]) {
+fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel) {
+    val customer: Customer = customers[viewModel.customerId!! - 1]
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -70,7 +71,7 @@ fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, customer: Customer
             text = "Notatki:",
             style = MaterialTheme.typography.h6
         )
-        val notes by viewModel.getAllNotes().collectAsState(initial = emptyList())
+        val notes by viewModel.getNotes().collectAsState(initial = emptyList())
         LazyColumn(modifier = Modifier.fillMaxWidth()) {
             items(notes) { note ->
                 val dateTime = LocalDateTime.ofInstant(note.timestamp, ZoneId.systemDefault())

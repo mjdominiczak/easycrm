@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -14,6 +15,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class NoteDialog : BottomSheetDialogFragment() {
 
     private val viewModel: CustomerDetailViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val args: NoteDialogArgs by navArgs()
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(
@@ -21,6 +23,7 @@ class NoteDialog : BottomSheetDialogFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        viewModel.customerId = args.customerId
         return ComposeView(requireContext()).apply {
             setContent {
                 NoteEditor(viewModel, navController)
