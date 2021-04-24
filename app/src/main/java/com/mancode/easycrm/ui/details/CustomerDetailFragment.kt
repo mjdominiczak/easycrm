@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
-import androidx.compose.material.Scaffold
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -33,6 +32,18 @@ class CustomerDetailFragment : Fragment() {
             setContent {
                 EasyCrmTheme {
                     Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = {
+                                    Text(text = "Szczegóły")
+                                },
+                                navigationIcon = {
+                                    IconButton(onClick = { findNavController().navigateUp() }) {
+                                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "")
+                                    }
+                                }
+                            )
+                        },
                         floatingActionButton = {
                             FloatingActionButton(onClick = {
                                 val dirs =

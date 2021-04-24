@@ -4,6 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FilterAlt
+import androidx.compose.material.icons.filled.Sort
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
@@ -19,7 +23,31 @@ class CustomersListFragment : Fragment() {
         return ComposeView(requireContext()).apply {
             setContent {
                 EasyCrmTheme {
-                    CustomersList(findNavController())
+                    Scaffold(
+                        topBar = {
+                            TopAppBar(
+                                title = {
+                                    Text(text = "Easy CRM")
+                                },
+                                actions = {
+                                    IconButton(onClick = { /*TODO*/ }) {
+                                        Icon(
+                                            imageVector = Icons.Filled.FilterAlt,
+                                            contentDescription = ""
+                                        )
+                                    }
+                                    IconButton(onClick = { /*TODO*/ }) {
+                                        Icon(
+                                            imageVector = Icons.Filled.Sort,
+                                            contentDescription = ""
+                                        )
+                                    }
+                                }
+                            )
+                        }
+                    ) {
+                        CustomersList(findNavController())
+                    }
                 }
             }
         }
