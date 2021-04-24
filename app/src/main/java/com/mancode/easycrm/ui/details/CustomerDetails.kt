@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.MaterialTheme
@@ -23,60 +25,57 @@ import com.mancode.easycrm.data.Contact
 import com.mancode.easycrm.data.Customer
 import com.mancode.easycrm.data.customers
 import com.mancode.easycrm.ui.list.StatusChip
-import com.mancode.easycrm.ui.theme.EasyCrmTheme
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
 fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, customer: Customer = customers[0]) {
-    EasyCrmTheme {
-        Column(
-            modifier = Modifier.padding(16.dp)
+    Column(
+        modifier = Modifier.padding(16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth()
         ) {
-            Row(
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = customer.name,
-                    style = MaterialTheme.typography.h4,
-                    modifier = Modifier.weight(0.6f)
-                )
-                StatusChip(
-                    text = "Zbieranie danych",
-                    modifier = Modifier.weight(0.4f)
-                )
-            }
             Text(
-                text = "Ostatni kontakt: ${customer.dateLastContacted ?: "brak"}",
-                style = MaterialTheme.typography.body2
+                text = customer.name,
+                style = MaterialTheme.typography.h4,
+                modifier = Modifier.weight(0.6f)
             )
+            StatusChip(
+                text = "Zbieranie danych",
+                modifier = Modifier.weight(0.4f)
+            )
+        }
+        Text(
+            text = "Ostatni kontakt: ${customer.dateLastContacted ?: "brak"}",
+            style = MaterialTheme.typography.body2
+        )
+        Text(
+            text = "Kolejny kontakt: ${customer.dateNextContact ?: "brak"}",
+            style = MaterialTheme.typography.body2
+        )
+        Spacer(modifier = Modifier.height(24.dp))
+        Column {
             Text(
-                text = "Kolejny kontakt: ${customer.dateNextContact ?: "brak"}",
-                style = MaterialTheme.typography.body2
+                text = "Osoby kontaktowe:",
+                style = MaterialTheme.typography.h6
             )
-            Spacer(modifier = Modifier.height(24.dp))
-            Column {
-                Text(
-                    text = "Osoby kontaktowe:",
-                    style = MaterialTheme.typography.h6
-                )
-                for (contact in customer.contacts) {
-                    ContactRow(contact)
-                }
+            for (contact in customer.contacts) {
+                ContactRow(contact)
             }
-            Spacer(modifier = Modifier.height(24.dp))
-            Column {
-                Text(
-                    text = "Notatki:",
-                    style = MaterialTheme.typography.h6
-                )
-                val notes by viewModel.getAllNotes().collectAsState(initial = emptyList())
-                for (note in notes) {
-                    val dateTime = LocalDateTime.ofInstant(note.timestamp, ZoneId.systemDefault())
-                        .format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm"))
-                    Text(text = "\n$dateTime\n${note.text}")
-                }
+        }
+        Spacer(modifier = Modifier.height(24.dp))
+        Text(
+            text = "Notatki:",
+            style = MaterialTheme.typography.h6
+        )
+        val notes by viewModel.getAllNotes().collectAsState(initial = emptyList())
+        LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            items(notes) { note ->
+                val dateTime = LocalDateTime.ofInstant(note.timestamp, ZoneId.systemDefault())
+                    .format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm"))
+                Text(text = "\n$dateTime\n${note.text}")
             }
         }
     }

@@ -7,7 +7,7 @@ import org.threeten.bp.Instant
 
 @Entity(tableName = "notes")
 data class Note(
-    @PrimaryKey val id: Int,
+    @PrimaryKey(autoGenerate = true) val id: Int,
     @ColumnInfo(name = "timestamp") val timestamp: Instant,
     @ColumnInfo(name = "text") val text: String
 )

@@ -19,5 +19,12 @@
         <argument
             android:name="customer_id"
             app:argType="integer" />
+        <action
+            android:id="@+id/action_customerDetailFragment_to_noteDialog"
+            app:destination="@id/noteDialog" />
     </fragment>
+    <dialog
+        android:id="@+id/noteDialog"
+        android:name="com.mancode.easycrm.ui.details.NoteDialog"
+        android:label="NoteDialog" />
 </navigation>
