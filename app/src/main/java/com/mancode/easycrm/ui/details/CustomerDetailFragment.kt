@@ -21,6 +21,7 @@ class CustomerDetailFragment : Fragment() {
 
     private val viewModel: CustomerDetailViewModel by viewModels()
     private val args: CustomerDetailFragmentArgs by navArgs()
+    private val navController by lazy { findNavController() }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,8 +39,8 @@ class CustomerDetailFragment : Fragment() {
                                     Text(text = "Szczegóły")
                                 },
                                 navigationIcon = {
-                                    IconButton(onClick = { findNavController().navigateUp() }) {
-                                        Icon(imageVector = Icons.Filled.ArrowBack, contentDescription = "")
+                                    IconButton(onClick = { navController.navigateUp() }) {
+                                        Icon(Icons.Filled.ArrowBack, contentDescription = "")
                                     }
                                 }
                             )
@@ -50,13 +51,13 @@ class CustomerDetailFragment : Fragment() {
                                     CustomerDetailFragmentDirections.actionCustomerDetailFragmentToNoteDialog(
                                         viewModel.customerId!!
                                     )
-                                findNavController().navigate(dirs)
+                                navController.navigate(dirs)
                             }) {
                                 Icon(imageVector = Icons.Filled.Add, contentDescription = "")
                             }
                         }
                     ) {
-                        CustomerDetailsScreen(viewModel)
+                        CustomerDetailsScreen(viewModel, navController)
                     }
                 }
             }

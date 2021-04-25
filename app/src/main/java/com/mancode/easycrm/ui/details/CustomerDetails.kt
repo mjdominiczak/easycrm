@@ -3,6 +3,7 @@ package com.mancode.easycrm.ui.details
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -21,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.navigation.NavController
 import com.mancode.easycrm.data.Contact
 import com.mancode.easycrm.data.Customer
 import com.mancode.easycrm.data.customers
@@ -30,7 +32,7 @@ import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
-fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel) {
+fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: NavController) {
     val customer: Customer = customers[viewModel.customerId!! - 1]
     Column(
         modifier = Modifier.padding(16.dp)
@@ -76,7 +78,18 @@ fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel) {
             items(notes) { note ->
                 val dateTime = LocalDateTime.ofInstant(note.timestamp, ZoneId.systemDefault())
                     .format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm"))
-                Text(text = "\n$dateTime\n${note.text}")
+                Text(
+                    text = "\n$dateTime\n${note.text}",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            val dirs =
+                                CustomerDetailFragmentDirections.actionCustomerDetailFragmentToNoteDialog(
+                                    viewModel.customerId!!,
+                                    note.id
+                                )
+                            navController.navigate(dirs)
+                        })
             }
         }
     }

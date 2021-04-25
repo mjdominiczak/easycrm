@@ -9,7 +9,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
+import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
@@ -20,14 +22,32 @@ fun NoteEditor(viewModel: CustomerDetailViewModel, navController: NavController)
             .padding(8.dp)
     ) {
         var clicked by remember { mutableStateOf(false) }
-        val time = remember { LocalDateTime.now() }
-        Text(text = time.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm")))
+        var edited by remember { mutableStateOf(false) }
+        val noteToUpdate by viewModel.getNoteToUpdate().collectAsState(initial = null)
+        val time = if (viewModel.noteId == 0) {
+            LocalDateTime.now()
+        } else {
+            (noteToUpdate?.timestamp ?: Instant.now()).atZone(ZoneId.systemDefault())
+                .toLocalDateTime()
+        }
+        Text(text = time?.format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm")) ?: "failed")
         Spacer(modifier = Modifier.height(8.dp))
 
-        var note by remember { mutableStateOf("") }
+        var modifiedNote by remember {
+            mutableStateOf("")
+        }
+        val initialNote = noteToUpdate?.text.also {
+            if (!edited) {
+                modifiedNote = it ?: ""
+            }
+        } ?: ""
+        val note = if (!edited) initialNote else modifiedNote
         TextField(
             value = note,
-            onValueChange = { note = it },
+            onValueChange = {
+                modifiedNote = it
+                edited = true
+            },
             label = { Text("Notatka") },
             modifier = Modifier.fillMaxWidth()
         )
@@ -35,7 +55,11 @@ fun NoteEditor(viewModel: CustomerDetailViewModel, navController: NavController)
         Button(
             onClick = {
                 if (note.isNotBlank()) {
-                    viewModel.insertNote(time, note)
+                    if (viewModel.noteId == 0) {
+                        viewModel.insertNote(time!!, note)
+                    } else {
+                        viewModel.updateNote(noteToUpdate!!.copy(text = note))
+                    }
                     navController.navigateUp()
                 } else {
                     clicked = true

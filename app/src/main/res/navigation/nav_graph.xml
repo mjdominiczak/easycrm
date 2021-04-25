@@ -32,5 +32,9 @@
             android:name="customerId"
             app:argType="integer"
             android:defaultValue="-1" />
+        <argument
+            android:name="noteId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </dialog>
 </navigation>

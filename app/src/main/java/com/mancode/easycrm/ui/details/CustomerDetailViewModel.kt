@@ -16,14 +16,23 @@ class CustomerDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     var customerId: Int? = null
+    var noteId: Int = 0
 
     fun getNotes() = noteDao.getNotesForCustomer(customerId!!)
+
+    fun getNoteToUpdate() = noteDao.getNoteById(noteId)
 
     fun insertNote(time: LocalDateTime, note: String) {
         viewModelScope.launch {
             noteDao.insertNote(
                 Note(0, customerId!!, time.atZone(ZoneId.systemDefault()).toInstant(), note)
             )
+        }
+    }
+
+    fun updateNote(note: Note) {
+        viewModelScope.launch {
+            noteDao.updateNote(note)
         }
     }
 }

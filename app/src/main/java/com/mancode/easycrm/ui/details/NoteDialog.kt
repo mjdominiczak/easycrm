@@ -24,6 +24,7 @@ class NoteDialog : BottomSheetDialogFragment() {
         savedInstanceState: Bundle?
     ): View {
         viewModel.customerId = args.customerId
+        viewModel.noteId = args.noteId
         return ComposeView(requireContext()).apply {
             setContent {
                 NoteEditor(viewModel, navController)
