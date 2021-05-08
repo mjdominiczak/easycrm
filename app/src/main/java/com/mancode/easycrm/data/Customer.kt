@@ -1,6 +1,6 @@
 package com.mancode.easycrm.data
 
-import com.mancode.easycrm.db.Note
+import com.mancode.easycrm.db.Address
 import org.threeten.bp.LocalDate
 
 data class Customer(
@@ -11,7 +11,6 @@ data class Customer(
     val dateAdded: LocalDate = LocalDate.now()
 ) {
     val contacts = mutableListOf<Contact>()
-    val notes = mutableListOf<Note>()
     var dateLastContacted: LocalDate? = null
     var dateNextContact: LocalDate? = null
 }

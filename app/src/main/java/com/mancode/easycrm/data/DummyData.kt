@@ -1,12 +1,13 @@
 package com.mancode.easycrm.data
 
+import com.mancode.easycrm.db.Address
 import org.threeten.bp.LocalDate
 
 val customers = listOf(
     Customer(
         1,
         "Polswat",
-        Address("Przemysłowa 15", "Radom", "Polska"),
+        Address(0,"Przemysłowa 15", "Radom", "Polska"),
         "https://www.polswat.pl/"
     ).apply {
         contacts.addAll(
@@ -22,7 +23,7 @@ val customers = listOf(
     Customer(
         2,
         "KAN-therm",
-        Address("Zdrojowa 51", "Białystok-Kleosin", "Polska"),
+        Address(0,"Zdrojowa 51", "Białystok-Kleosin", "Polska"),
         "http://pl.kan-therm.com/"
     ).apply {
         contacts.addAll(
