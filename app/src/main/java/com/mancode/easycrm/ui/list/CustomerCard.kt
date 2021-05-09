@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.mancode.easycrm.data.Customer
+import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.ui.theme.DeepPurple300
 import com.mancode.easycrm.ui.theme.Ebony
 
@@ -23,7 +23,7 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
             .padding(horizontal = 8.dp)
             .padding(top = 8.dp)
             .fillMaxWidth()
-            .clickable { onClick(customer.id) }
+            .clickable { onClick(customer.raw.id) }
             .border(
                 border = BorderStroke(1.dp, Ebony),
                 shape = RoundedCornerShape(4.dp)
@@ -38,7 +38,7 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
                     .fillMaxWidth()
             ) {
                 Text(
-                    text = customer.name,
+                    text = customer.raw.name,
                     style = MaterialTheme.typography.h5,
                     modifier = Modifier.weight(0.6f)
                 )
@@ -48,11 +48,11 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
                 )
             }
             Text(
-                text = "Ostatni kontakt: ${customer.dateLastContacted ?: "brak"}",
+                text = "Ostatni kontakt: ${customer.raw.dateLastContacted ?: "brak"}",
                 style = MaterialTheme.typography.body2
             )
             Text(
-                text = "Kolejny kontakt: ${customer.dateNextContact ?: "brak"}",
+                text = "Kolejny kontakt: ${customer.raw.dateNextContact ?: "brak"}",
                 style = MaterialTheme.typography.body2
             )
             Spacer(modifier = Modifier.height(8.dp))

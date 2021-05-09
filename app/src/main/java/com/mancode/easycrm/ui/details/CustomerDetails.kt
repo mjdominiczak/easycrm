@@ -23,9 +23,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import com.mancode.easycrm.data.Contact
-import com.mancode.easycrm.data.Customer
 import com.mancode.easycrm.data.customers
+import com.mancode.easycrm.db.Contact
+import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.ui.list.StatusChip
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
@@ -41,7 +41,7 @@ fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: Nav
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = customer.name,
+                text = customer.raw.name,
                 style = MaterialTheme.typography.h4,
                 modifier = Modifier.weight(0.6f)
             )
@@ -51,11 +51,11 @@ fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: Nav
             )
         }
         Text(
-            text = "Ostatni kontakt: ${customer.dateLastContacted ?: "brak"}",
+            text = "Ostatni kontakt: ${customer.raw.dateLastContacted ?: "brak"}",
             style = MaterialTheme.typography.body2
         )
         Text(
-            text = "Kolejny kontakt: ${customer.dateNextContact ?: "brak"}",
+            text = "Kolejny kontakt: ${customer.raw.dateNextContact ?: "brak"}",
             style = MaterialTheme.typography.body2
         )
         Spacer(modifier = Modifier.height(24.dp))

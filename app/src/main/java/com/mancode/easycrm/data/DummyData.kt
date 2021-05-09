@@ -1,35 +1,40 @@
 package com.mancode.easycrm.data
 
 import com.mancode.easycrm.db.Address
-import org.threeten.bp.LocalDate
+import com.mancode.easycrm.db.Contact
+import com.mancode.easycrm.db.Customer
+import com.mancode.easycrm.db.CustomerRaw
 
-val customers = listOf(
-    Customer(
+val customersRaw = listOf(
+    CustomerRaw(
         1,
         "Polswat",
-        Address(0,"Przemysłowa 15", "Radom", "Polska"),
-        "https://www.polswat.pl/"
-    ).apply {
-        contacts.addAll(
-            listOf(
-                Contact("Andrzej Witczak", "500123456"),
-                Contact("Kazik", "500456789"),
-                Contact("Dominik Popielski", "600456789", "polswat@polswat.pl")
-            )
-        )
-        dateLastContacted = LocalDate.of(2021, 3, 29)
-        dateNextContact = LocalDate.of(2021, 4, 1)
-    },
-    Customer(
+        "https://www.polswat.pl/",
+    ),
+    CustomerRaw(
         2,
         "KAN-therm",
-        Address(0,"Zdrojowa 51", "Białystok-Kleosin", "Polska"),
         "http://pl.kan-therm.com/"
-    ).apply {
-        contacts.addAll(
-            listOf(
-                Contact("Ignacy", "600456789", "polswat@polswat.pl")
-            )
-        )
-    }
+    )
 )
+
+val addresses = listOf(
+    Address(1, 1, "Przemysłowa 15", "Radom", "Polska"),
+    Address(2, 2, "Zdrojowa 51", "Białystok-Kleosin", "Polska")
+)
+
+val contacts = listOf(
+    Contact(1, 1, "Andrzej Witczak", "500123456"),
+    Contact(2, 1, "Kazik", "500456789"),
+    Contact(3, 1, "Dominik Popielski", "600456789", "polswat@polswat.pl"),
+    Contact(4, 2, "Ignacy", "600456789", "ignacy@kan-therm.pl")
+)
+
+val customers = customersRaw.map { raw ->
+    Customer(
+        raw,
+        addresses.first { it.customerId == raw.id },
+        contacts.filter { it.customerId == raw.id },
+        listOf()
+    )
+}
