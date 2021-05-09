@@ -9,17 +9,17 @@ data class Customer(
     @Embedded
     val raw: CustomerRaw,
     @Relation(
-        parentColumn = "customerId",
+        parentColumn = "id",
         entityColumn = "customerId"
     )
     val address: Address,
     @Relation(
-        parentColumn = "customerId",
+        parentColumn = "id",
         entityColumn = "customerId"
     )
     val contacts: List<Contact>,
     @Relation(
-        parentColumn = "customerId",
+        parentColumn = "id",
         entityColumn = "customerId"
     )
     val notes: List<Note>

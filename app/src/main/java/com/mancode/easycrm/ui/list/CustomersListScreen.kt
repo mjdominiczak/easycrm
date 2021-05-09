@@ -1,22 +1,32 @@
 package com.mancode.easycrm.ui.list
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import com.mancode.easycrm.data.addresses
-import com.mancode.easycrm.data.contacts
-import com.mancode.easycrm.data.customers
-import com.mancode.easycrm.db.Customer
 
 @Composable
-fun CustomersList(navController: NavController) {
-    Column {
-        for (customer in customers) {
-            val action =
-                CustomersListFragmentDirections.actionCustomersListFragmentToCustomerDetailFragment(
-                    customer.raw.id
-                )
-            CustomerCard(customer = customer, onClick = { navController.navigate(action) })
+fun CustomersList(viewModel: CustomersListViewModel, navController: NavController) {
+    val customers by viewModel.customers.collectAsState(initial = listOf())
+    if (customers.isNotEmpty()) {
+        Column {
+            for (customer in customers) {
+                val action =
+                    CustomersListFragmentDirections.actionCustomersListFragmentToCustomerDetailFragment(
+                        customer.raw.id
+                    )
+                CustomerCard(customer = customer, onClick = { navController.navigate(action) })
+            }
+        }
+    } else {
+        Button(onClick = { viewModel.populateDB() }, modifier = Modifier.padding(8.dp)) {
+            Text(text = "Dodaj wpisy")
         }
     }
 }

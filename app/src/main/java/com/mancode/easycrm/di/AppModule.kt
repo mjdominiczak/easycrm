@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.room.Room
 import com.mancode.easycrm.db.EasyCrmDatabase
 import com.mancode.easycrm.db.NoteDao
+import com.mancode.easycrm.db.dao.CustomerDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,5 +26,11 @@ object AppModule {
     @Provides
     fun provideNoteDao(db: EasyCrmDatabase): NoteDao {
         return db.noteDao()
+    }
+
+    @Singleton
+    @Provides
+    fun provideCustomerDao(db: EasyCrmDatabase): CustomerDao {
+        return db.customerDao()
     }
 }

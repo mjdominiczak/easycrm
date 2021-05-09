@@ -7,9 +7,10 @@ object InstantConverter {
 
     @TypeConverter
     @JvmStatic
-    fun toEpochMilli(instant: Instant) = instant.toEpochMilli()
+    fun toEpochMilli(instant: Instant?) = instant?.toEpochMilli()
 
     @TypeConverter
     @JvmStatic
-    fun toInstant(epochMilli: Long): Instant = Instant.ofEpochMilli(epochMilli)
+    fun toInstant(epochMilli: Long?): Instant? =
+        if (epochMilli != null) Instant.ofEpochMilli(epochMilli) else null
 }

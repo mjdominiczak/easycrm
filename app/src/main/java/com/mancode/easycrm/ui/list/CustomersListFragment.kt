@@ -10,10 +10,15 @@ import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.mancode.easycrm.ui.theme.EasyCrmTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class CustomersListFragment : Fragment() {
+
+    private val viewModel: CustomersListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,7 +51,7 @@ class CustomersListFragment : Fragment() {
                             )
                         }
                     ) {
-                        CustomersList(findNavController())
+                        CustomersList(viewModel, findNavController())
                     }
                 }
             }
