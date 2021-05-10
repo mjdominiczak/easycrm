@@ -14,6 +14,10 @@ interface CustomerDao {
     @Query("SELECT * FROM customers")
     fun getCustomers(): Flow<List<Customer>>
 
+    @Transaction
+    @Query("SELECT * FROM customers WHERE id = :id")
+    fun getCustomerById(id: Int): Flow<Customer>
+
     @Insert
     suspend fun insertCustomer(customer: CustomerRaw)
 

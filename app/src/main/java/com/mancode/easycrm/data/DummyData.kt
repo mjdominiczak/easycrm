@@ -2,7 +2,6 @@ package com.mancode.easycrm.data
 
 import com.mancode.easycrm.db.Address
 import com.mancode.easycrm.db.Contact
-import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.db.CustomerRaw
 
 val customersRaw = listOf(
@@ -29,12 +28,3 @@ val contacts = listOf(
     Contact(3, 1, "Dominik Popielski", "600456789", "polswat@polswat.pl"),
     Contact(4, 2, "Ignacy", "600456789", "ignacy@kan-therm.pl")
 )
-
-val customers = customersRaw.map { raw ->
-    Customer(
-        raw,
-        addresses.first { it.customerId == raw.id },
-        contacts.filter { it.customerId == raw.id },
-        listOf()
-    )
-}

@@ -23,9 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
-import com.mancode.easycrm.data.customers
 import com.mancode.easycrm.db.Contact
-import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.ui.list.StatusChip
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
@@ -33,7 +31,7 @@ import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
 fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: NavController) {
-    val customer: Customer = customers[viewModel.customerId!! - 1]
+    val customer by viewModel.getCustomer().collectAsState(initial = null)
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -41,7 +39,7 @@ fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: Nav
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
-                text = customer.raw.name,
+                text = customer?.raw?.name ?: "",
                 style = MaterialTheme.typography.h4,
                 modifier = Modifier.weight(0.6f)
             )
@@ -51,11 +49,11 @@ fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: Nav
             )
         }
         Text(
-            text = "Ostatni kontakt: ${customer.raw.dateLastContacted ?: "brak"}",
+            text = "Ostatni kontakt: ${customer?.raw?.dateLastContacted ?: "brak"}",
             style = MaterialTheme.typography.body2
         )
         Text(
-            text = "Kolejny kontakt: ${customer.raw.dateNextContact ?: "brak"}",
+            text = "Kolejny kontakt: ${customer?.raw?.dateNextContact ?: "brak"}",
             style = MaterialTheme.typography.body2
         )
         Spacer(modifier = Modifier.height(24.dp))
@@ -64,7 +62,7 @@ fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: Nav
                 text = "Osoby kontaktowe:",
                 style = MaterialTheme.typography.h6
             )
-            for (contact in customer.contacts) {
+            for (contact in customer?.contacts ?: emptyList()) {
                 ContactRow(contact)
             }
         }

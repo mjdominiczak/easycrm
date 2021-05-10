@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mancode.easycrm.db.Note
 import com.mancode.easycrm.db.NoteDao
+import com.mancode.easycrm.db.dao.CustomerDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
@@ -12,11 +13,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class CustomerDetailViewModel @Inject constructor(
-    private val noteDao: NoteDao
+    private val noteDao: NoteDao,
+    private val customerDao: CustomerDao
 ) : ViewModel() {
 
     var customerId: Int? = null
     var noteId: Int = 0
+
+    fun getCustomer() = customerDao.getCustomerById(customerId!!)
 
     fun getNotes() = noteDao.getNotesForCustomer(customerId!!)
 
