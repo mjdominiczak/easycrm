@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.NoteAdd
 import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -53,7 +53,7 @@ class CustomerDetailFragment : Fragment() {
                                     )
                                 navController.navigate(dirs)
                             }) {
-                                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+                                Icon(imageVector = Icons.Filled.NoteAdd, contentDescription = "")
                             }
                         }
                     ) {

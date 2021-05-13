@@ -11,6 +11,9 @@
         <action
             android:id="@+id/action_customersListFragment_to_customerDetailFragment"
             app:destination="@id/customerDetailFragment" />
+        <action
+            android:id="@+id/action_customersListFragment_to_addCustomerDialog"
+            app:destination="@id/addCustomerDialog" />
     </fragment>
     <fragment
         android:id="@+id/customerDetailFragment"
@@ -37,4 +40,8 @@
             app:argType="integer"
             android:defaultValue="0" />
     </dialog>
+    <dialog
+        android:id="@+id/addCustomerDialog"
+        android:name="com.mancode.easycrm.ui.list.AddCustomerDialog"
+        android:label="AddCustomerDialog" />
 </navigation>

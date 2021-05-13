@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.FilterAlt
 import androidx.compose.material.icons.filled.Sort
 import androidx.compose.ui.platform.ComposeView
@@ -49,6 +50,14 @@ class CustomersListFragment : Fragment() {
                                     }
                                 }
                             )
+                        },
+                        floatingActionButton = {
+                            FloatingActionButton(onClick = {
+                                val dirs = CustomersListFragmentDirections.actionCustomersListFragmentToAddCustomerDialog()
+                                findNavController().navigate(dirs)
+                            }) {
+                                Icon(imageVector = Icons.Filled.Add, contentDescription = "")
+                            }
                         }
                     ) {
                         CustomersList(viewModel, findNavController())
