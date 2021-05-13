@@ -8,7 +8,7 @@ import org.threeten.bp.Instant
 data class CustomerRaw(
     @PrimaryKey(autoGenerate = true) val id: Int,
     val name: String,
-    val webpageUrl: String,
+    val webpageUrl: String? = null,
     val dateAdded: Instant = Instant.now(),
     val dateLastContacted: Instant? = null,
     val dateNextContact: Instant? = null

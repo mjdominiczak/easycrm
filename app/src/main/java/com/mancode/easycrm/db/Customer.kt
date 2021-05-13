@@ -12,7 +12,7 @@ data class Customer(
         parentColumn = "id",
         entityColumn = "customerId"
     )
-    val address: Address,
+    val address: Address?,
     @Relation(
         parentColumn = "id",
         entityColumn = "customerId"

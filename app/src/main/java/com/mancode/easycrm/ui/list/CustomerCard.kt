@@ -56,7 +56,9 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
                 style = MaterialTheme.typography.body2
             )
             Spacer(modifier = Modifier.height(8.dp))
-            CallButton(name = customer.contacts[0].name)
+            if (customer.contacts.isNotEmpty()) {
+                CallButton(name = customer.contacts[0].name)
+            }
         }
     }
 }
