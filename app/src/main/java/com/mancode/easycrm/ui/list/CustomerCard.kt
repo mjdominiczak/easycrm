@@ -2,7 +2,6 @@ package com.mancode.easycrm.ui.list
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -16,6 +15,7 @@ import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.ui.theme.DeepPurple300
 import com.mancode.easycrm.ui.theme.Ebony
 
+@ExperimentalMaterialApi
 @Composable
 fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
     Card(
@@ -23,11 +23,11 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
             .padding(horizontal = 8.dp)
             .padding(top = 8.dp)
             .fillMaxWidth()
-            .clickable { onClick(customer.raw.id) }
             .border(
                 border = BorderStroke(1.dp, Ebony),
                 shape = RoundedCornerShape(4.dp)
-            )
+            ),
+        onClick = { onClick(customer.raw.id) }
     ) {
         Column(
             modifier = Modifier
