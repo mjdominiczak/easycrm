@@ -56,4 +56,5 @@ version.properties
 .idea/misc.xml
 .idea/encodings.xml
 .idea/assetWizardSettings.xml
+.idea/deploymentTargetDropDown.xml
 *.iml
