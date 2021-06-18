@@ -15,7 +15,7 @@ import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.ui.theme.DeepPurple300
 import com.mancode.easycrm.ui.theme.Ebony
 
-@ExperimentalMaterialApi
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
     Card(
