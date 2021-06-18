@@ -5,14 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class NoteDialog : BottomSheetDialogFragment() {
+class NoteDialog : DialogFragment() {
 
     private val viewModel: CustomerDetailViewModel by viewModels(ownerProducer = { requireParentFragment() })
     private val args: NoteDialogArgs by navArgs()

@@ -5,14 +5,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddCustomerDialog : BottomSheetDialogFragment() {
+class AddCustomerDialog : DialogFragment() {
 
     private val viewModel: CustomersListViewModel by viewModels(ownerProducer = { requireParentFragment() })
     private val navController by lazy { findNavController() }
