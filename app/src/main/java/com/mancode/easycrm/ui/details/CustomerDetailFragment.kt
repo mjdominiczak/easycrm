@@ -1,12 +1,16 @@
 package com.mancode.easycrm.ui.details
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.ContactsContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.PickContact
+import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.activity.result.launch
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -25,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -40,6 +45,15 @@ class CustomerDetailFragment : Fragment() {
     private val args: CustomerDetailFragmentArgs by navArgs()
     private val navController by lazy { findNavController() }
 
+    private val requestPermission =
+        registerForActivityResult(RequestPermission()) { isGranted ->
+            if (isGranted) {
+                pickContact.launch()
+            } else {
+                Toast.makeText(context, "Odmówiono dostępu do kontaktów!", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     private val pickContact =
         registerForActivityResult(PickContact()) { uri ->
             if (uri != null) {
@@ -122,7 +136,17 @@ class CustomerDetailFragment : Fragment() {
         }
     }
 
-    private fun pickContact() = pickContact.launch()
+    private fun pickContact() {
+        when {
+            ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_CONTACTS)
+                    == PackageManager.PERMISSION_GRANTED -> pickContact.launch()
+            shouldShowRequestPermissionRationale(Manifest.permission.READ_CONTACTS) -> {
+                Toast.makeText(context, "Potrzebny dostęp do kontaktów!", Toast.LENGTH_SHORT).show()
+                requestPermission.launch(Manifest.permission.READ_CONTACTS)
+            }
+            else -> requestPermission.launch(Manifest.permission.READ_CONTACTS)
+        }
+    }
 
     private fun addSelectedContact(uri: Uri) {
         val contentResolver = requireContext().contentResolver
