@@ -1,11 +1,10 @@
 package com.mancode.easycrm.db
 
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 
-@Entity(tableName = "contacts")
+@Entity(tableName = "contacts", primaryKeys = ["contactLookupKey", "customerId"])
 data class Contact(
-    @PrimaryKey(autoGenerate = true) val contactId: Int,
+    val contactLookupKey: String,
     val customerId: Int,
     val name: String,
     val phoneNumber: String? = null,
