@@ -1,8 +1,5 @@
 package com.mancode.easycrm.ui.details
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -21,10 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
-import androidx.core.content.ContextCompat
 import androidx.navigation.NavController
 import com.mancode.easycrm.db.Contact
 import com.mancode.easycrm.ui.list.StatusChip
+import com.mancode.easycrm.utils.dialContact
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
@@ -117,10 +114,4 @@ private fun ContactRow(contact: Contact) {
             }
         }
     }
-}
-
-private fun dialContact(context: Context, phoneNumber: String) {
-    val intent = Intent(Intent.ACTION_DIAL)
-    intent.data = Uri.parse("tel:$phoneNumber")
-    ContextCompat.startActivity(context, intent, null)
 }
