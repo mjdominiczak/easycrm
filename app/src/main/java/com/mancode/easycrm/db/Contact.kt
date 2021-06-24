@@ -9,5 +9,6 @@ data class Contact(
     val name: String,
     val phoneNumber: String? = null,
     val email: String? = null,
-    val position: String? = null
+    val position: String? = null,
+    val hasPhoneNumber: Boolean = false
 )

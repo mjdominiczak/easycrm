@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.mancode.easycrm.db.Contact
 import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.ui.theme.DeepPurple300
 import com.mancode.easycrm.ui.theme.Ebony
@@ -60,7 +61,7 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
             Spacer(modifier = Modifier.height(8.dp))
             if (customer.contacts.isNotEmpty()) {
                 val contact = customer.contacts[0]
-                CallButton(name = contact.name, phoneNumber = contact.phoneNumber!!)
+                CallButton(contact)
             }
         }
     }
@@ -83,11 +84,11 @@ fun StatusChip(modifier: Modifier = Modifier, text: String = "testaasdas") {
 }
 
 @Composable
-fun CallButton(name: String, phoneNumber: String) {
+fun CallButton(contact: Contact) {
     val context = LocalContext.current
-    Button(onClick = { dialContact(context, phoneNumber) }) {
+    Button(onClick = { dialContact(context, contact) }) {
         Icon(imageVector = Icons.Filled.Call, contentDescription = "")
         Spacer(Modifier.width(8.dp))
-        Text(text = name)
+        Text(text = contact.name)
     }
 }

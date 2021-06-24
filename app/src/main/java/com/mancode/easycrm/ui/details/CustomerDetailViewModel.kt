@@ -29,9 +29,15 @@ class CustomerDetailViewModel @Inject constructor(
 
     fun getNoteToUpdate() = noteDao.getNoteById(noteId)
 
-    fun insertContact(lookupKey: String, name: String, phoneNumber: String) = viewModelScope.launch {
+    fun insertContact(lookupKey: String, name: String, hasPhoneNumber: Boolean) =
+        viewModelScope.launch {
             contactDao.insertContact(
-                Contact(lookupKey, customerId!!, name, phoneNumber)
+                Contact(
+                    contactLookupKey = lookupKey,
+                    customerId = customerId!!,
+                    name = name,
+                    hasPhoneNumber = hasPhoneNumber
+                )
             )
         }
 

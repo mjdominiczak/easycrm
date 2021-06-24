@@ -96,7 +96,7 @@ private fun ContactRow(contact: Contact) {
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.fillMaxWidth()
     ) {
-        Text(text = "${contact.name}, tel: ${contact.phoneNumber}")
+        Text(text = contact.name)
         Row(
             horizontalArrangement = Arrangement.End,
             modifier = Modifier.fillMaxWidth()
@@ -106,9 +106,9 @@ private fun ContactRow(contact: Contact) {
                     Icon(imageVector = Icons.Filled.Email, contentDescription = "")
                 }
             }
-            if (contact.phoneNumber != null) {
+            if (contact.hasPhoneNumber) {
                 val context = LocalContext.current
-                IconButton(onClick = { dialContact(context, contact.phoneNumber) }) {
+                IconButton(onClick = { dialContact(context, contact) }) {
                     Icon(imageVector = Icons.Filled.Call, contentDescription = "")
                 }
             }
