@@ -7,11 +7,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.mancode.easycrm.db.Contact
 import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.ui.theme.DeepPurple300
@@ -21,6 +24,7 @@ import com.mancode.easycrm.utils.dialContact
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
+    val viewModel: CustomersListViewModel = viewModel()
     Card(
         modifier = Modifier
             .padding(horizontal = 8.dp)
@@ -34,12 +38,14 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
     ) {
         Column(
             modifier = Modifier
-                .padding(8.dp)
+                .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
         ) {
             Row(
                 modifier = Modifier
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
+                var showMenu by remember { mutableStateOf(false) }
                 Text(
                     text = customer.raw.name,
                     style = MaterialTheme.typography.h5,
@@ -49,6 +55,19 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
                     text = "Zbieranie danych",
                     modifier = Modifier.weight(0.4f)
                 )
+                IconButton(onClick = { showMenu = !showMenu }) {
+                    Icon(Icons.Filled.MoreVert, "")
+                    DropdownMenu(
+                        expanded = showMenu,
+                        onDismissRequest = { showMenu = false }) {
+                        DropdownMenuItem(onClick = {
+                            viewModel.deleteCustomer(customer)
+                            showMenu = false
+                        }) {
+                            Text("Usuń klienta")
+                        }
+                    }
+                }
             }
             Text(
                 text = "Ostatni kontakt: ${customer.raw.dateLastContacted ?: "brak"}",

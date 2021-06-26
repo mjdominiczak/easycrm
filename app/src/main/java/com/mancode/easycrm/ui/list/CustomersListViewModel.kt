@@ -1,10 +1,12 @@
 package com.mancode.easycrm.ui.list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mancode.easycrm.data.addresses
 import com.mancode.easycrm.data.contacts
 import com.mancode.easycrm.data.customersRaw
+import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.db.dao.CustomerDao
 import com.mancode.easycrm.db.CustomerRaw
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,4 +35,16 @@ class CustomersListViewModel @Inject constructor(
             )
         }
     }
+
+    fun deleteCustomer(customer: Customer) {
+        viewModelScope.launch {
+            Log.e("DELETE", "Before deleteCustomer")
+            customerDao.deleteCustomer(customer.raw)
+            Log.e("DELETE", "After deleteCustomer")
+            customer.address?.let { customerDao.deleteAddress(it) }
+            customerDao.deleteContacts(customer.contacts)
+            customerDao.deleteNotes(customer.notes)
+        }
+    }
+
 }

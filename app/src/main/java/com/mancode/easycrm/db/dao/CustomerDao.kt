@@ -1,10 +1,7 @@
 package com.mancode.easycrm.db.dao
 
 import androidx.room.*
-import com.mancode.easycrm.db.Address
-import com.mancode.easycrm.db.Contact
-import com.mancode.easycrm.db.Customer
-import com.mancode.easycrm.db.CustomerRaw
+import com.mancode.easycrm.db.*
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -29,4 +26,16 @@ interface CustomerDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertContacts(contacts: List<Contact>)
+
+    @Delete
+    suspend fun deleteCustomer(customer: CustomerRaw)
+
+    @Delete
+    suspend fun deleteAddress(address: Address)
+
+    @Delete
+    suspend fun deleteContacts(contacts: List<Contact>)
+
+    @Delete
+    suspend fun deleteNotes(notes: List<Note>)
 }
