@@ -41,19 +41,14 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
                 .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
         ) {
             Row(
-                modifier = Modifier
-                    .fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 var showMenu by remember { mutableStateOf(false) }
                 Text(
                     text = customer.raw.name,
                     style = MaterialTheme.typography.h5,
-                    modifier = Modifier.weight(0.6f)
-                )
-                StatusChip(
-                    text = "Zbieranie danych",
-                    modifier = Modifier.weight(0.4f)
                 )
                 IconButton(onClick = { showMenu = !showMenu }) {
                     Icon(Icons.Filled.MoreVert, "")
@@ -78,9 +73,16 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
                 style = MaterialTheme.typography.body2
             )
             Spacer(modifier = Modifier.height(8.dp))
-            if (customer.contacts.isNotEmpty()) {
-                val contact = customer.contacts[0]
-                CallButton(contact)
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                if (customer.contacts.isNotEmpty()) {
+                    val contact = customer.contacts[0]
+                    CallButton(contact)
+                }
+                Spacer(modifier = Modifier.width(8.dp))
+                StatusChip(text = "Zbieranie danych")
             }
         }
     }
@@ -108,6 +110,9 @@ fun CallButton(contact: Contact) {
     Button(onClick = { dialContact(context, contact) }) {
         Icon(imageVector = Icons.Filled.Call, contentDescription = "")
         Spacer(Modifier.width(8.dp))
-        Text(text = contact.name)
+        val name = if (contact.name.length > 18)
+            contact.name.take(15).plus("...") else
+            contact.name
+        Text(text = name, maxLines = 1)
     }
 }
