@@ -22,8 +22,7 @@ class CustomerDetailViewModel @Inject constructor(
 
     var customerId: Int? = null
     var noteId: Int = 0
-
-    fun getCustomer() = customerDao.getCustomerById(customerId!!)
+    val customer by lazy { customerDao.getCustomerById(customerId!!) }
 
     fun getNotes() = noteDao.getNotesForCustomer(customerId!!)
 
@@ -40,6 +39,12 @@ class CustomerDetailViewModel @Inject constructor(
                 )
             )
         }
+
+    fun deleteContact(contact: Contact) {
+        viewModelScope.launch {
+            contactDao.deleteContact(contact)
+        }
+    }
 
     fun insertNote(time: LocalDateTime, note: String) {
         viewModelScope.launch {

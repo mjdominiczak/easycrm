@@ -1,23 +1,21 @@
 package com.mancode.easycrm.ui.details
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
 import androidx.compose.material.icons.filled.Email
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mancode.easycrm.db.Contact
 import com.mancode.easycrm.ui.list.StatusChip
@@ -28,7 +26,7 @@ import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
 fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: NavController) {
-    val customer by viewModel.getCustomer().collectAsState(initial = null)
+    val customer by viewModel.customer.collectAsState(initial = null)
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
@@ -90,11 +88,18 @@ fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: Nav
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun ContactRow(contact: Contact) {
+    val viewModel: CustomerDetailViewModel = viewModel()
+    var showMenu by remember { mutableStateOf(false) }
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .combinedClickable(onLongClick = {
+                showMenu = true
+            }) {}
     ) {
         Text(text = contact.name)
         Row(
@@ -111,6 +116,11 @@ private fun ContactRow(contact: Contact) {
                 IconButton(onClick = { dialContact(context, contact) }) {
                     Icon(imageVector = Icons.Filled.Call, contentDescription = "")
                 }
+            }
+        }
+        DropdownMenu(expanded = showMenu, onDismissRequest = { showMenu = false }) {
+            DropdownMenuItem(onClick = { viewModel.deleteContact(contact) }) {
+                Text(text = "Odłącz kontakt")
             }
         }
     }
