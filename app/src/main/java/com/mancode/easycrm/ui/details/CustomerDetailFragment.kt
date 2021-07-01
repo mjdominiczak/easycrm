@@ -10,10 +10,8 @@ import androidx.activity.result.contract.ActivityResultContracts.PickContact
 import androidx.activity.result.launch
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -30,6 +28,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.mancode.easycrm.ui.theme.EasyCrmTheme
+import com.mancode.easycrm.utils.addContact
 import dagger.hilt.android.AndroidEntryPoint
 
 @ExperimentalAnimationApi
@@ -47,6 +46,7 @@ class CustomerDetailFragment : Fragment() {
             }
         }
 
+    @OptIn(ExperimentalMaterialApi::class)
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -55,6 +55,7 @@ class CustomerDetailFragment : Fragment() {
         viewModel.customerId = args.customerId
         return ComposeView(requireContext()).apply {
             setContent {
+                var openDialog by remember { mutableStateOf(false) }
                 EasyCrmTheme {
                     Scaffold(
                         topBar = {
@@ -75,7 +76,8 @@ class CustomerDetailFragment : Fragment() {
                                 AnimatedVisibility(fabExpanded) {
                                     FloatingActionButton(
                                         onClick = {
-                                            pickContact()
+                                            fabExpanded = false
+                                            openDialog = true
                                         },
                                         modifier = Modifier.size(40.dp)
                                     ) {
@@ -89,6 +91,7 @@ class CustomerDetailFragment : Fragment() {
                                 AnimatedVisibility(fabExpanded) {
                                     FloatingActionButton(
                                         onClick = {
+                                            fabExpanded = false
                                             val dirs =
                                                 CustomerDetailFragmentDirections.actionCustomerDetailFragmentToNoteDialog(
                                                     viewModel.customerId!!
@@ -116,6 +119,32 @@ class CustomerDetailFragment : Fragment() {
                         }
                     ) {
                         CustomerDetailsScreen(viewModel, navController)
+                    }
+                    if (openDialog) {
+                        AlertDialog(
+                            onDismissRequest = { openDialog = false },
+                            buttons = {
+                                Column(
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                        .fillMaxWidth()
+                                ) {
+                                    ListItem(text = { Text("Utwórz nowy kontakt") },
+                                        modifier = Modifier
+                                            .clickable {
+                                                addContact(context)
+                                                openDialog = false
+                                            })
+                                    Divider()
+                                    ListItem(text = { Text("Wybierz istniejący kontakt") },
+                                        modifier = Modifier
+                                            .clickable {
+                                                pickContact()
+                                                openDialog = false
+                                            })
+                                }
+                            }
+                        )
                     }
                 }
             }

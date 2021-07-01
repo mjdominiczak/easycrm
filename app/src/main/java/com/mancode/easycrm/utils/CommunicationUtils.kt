@@ -22,3 +22,20 @@ fun dialContact(context: Context, contact: Contact) {
     }
     ContextCompat.startActivity(context, intent, null)
 }
+
+fun viewContact(context: Context, contact: Contact) {
+    val intent = Intent(Intent.ACTION_VIEW).apply {
+        data = Uri.withAppendedPath(
+            ContactsContract.Contacts.CONTENT_LOOKUP_URI,
+            contact.contactLookupKey
+        )
+    }
+    ContextCompat.startActivity(context, intent, null)
+}
+
+fun addContact(context: Context) {
+    val intent = Intent(ContactsContract.Intents.Insert.ACTION).apply {
+        type = ContactsContract.RawContacts.CONTENT_TYPE
+    }
+    ContextCompat.startActivity(context, intent, null)
+}
