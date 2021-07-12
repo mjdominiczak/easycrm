@@ -124,11 +124,7 @@ class CustomerDetailFragment : Fragment() {
                         AlertDialog(
                             onDismissRequest = { openDialog = false },
                             buttons = {
-                                Column(
-                                    modifier = Modifier
-                                        .padding(8.dp)
-                                        .fillMaxWidth()
-                                ) {
+                                Column {
                                     ListItem(text = { Text("Utwórz nowy kontakt") },
                                         modifier = Modifier
                                             .clickable {
@@ -143,7 +139,9 @@ class CustomerDetailFragment : Fragment() {
                                                 openDialog = false
                                             })
                                 }
-                            }
+                            },
+                            modifier = Modifier
+                                .padding(24.dp) // TODO to be removed in future compose releases; https://issuetracker.google.com/issues/192682388
                         )
                     }
                 }
