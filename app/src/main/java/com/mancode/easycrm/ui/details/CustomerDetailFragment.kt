@@ -135,7 +135,7 @@ class CustomerDetailFragment : Fragment() {
                                     ListItem(text = { Text("Wybierz istniejący kontakt") },
                                         modifier = Modifier
                                             .clickable {
-                                                pickContact()
+                                                pickContact.launch()
                                                 openDialog = false
                                             })
                                 }
@@ -148,8 +148,6 @@ class CustomerDetailFragment : Fragment() {
             }
         }
     }
-
-    private fun pickContact() = pickContact.launch()
 
     private fun addSelectedContact(uri: Uri) {
         val contentResolver = requireContext().contentResolver
