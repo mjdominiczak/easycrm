@@ -14,8 +14,8 @@ android {
         applicationId "com.mancode.easycrm"
         minSdkVersion 23
         targetSdkVersion 30
-        versionCode 9
-        versionName "0.0.9"
+        versionCode 11
+        versionName "0.0.11"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
