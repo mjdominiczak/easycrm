@@ -20,6 +20,7 @@ import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.ui.theme.DeepPurple300
 import com.mancode.easycrm.ui.theme.Ebony
 import com.mancode.easycrm.utils.dialContact
+import com.mancode.easycrm.utils.formatToIsoDate
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -65,11 +66,11 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
                 }
             }
             Text(
-                text = "Ostatni kontakt: ${customer.raw.dateLastContacted ?: "brak"}",
+                text = "Ostatni kontakt: ${customer.raw.dateLastContacted?.formatToIsoDate() ?: "brak"}",
                 style = MaterialTheme.typography.body2
             )
             Text(
-                text = "Kolejny kontakt: ${customer.raw.dateNextContact ?: "brak"}",
+                text = "Kolejny kontakt: ${customer.raw.dateNextContact?.formatToIsoDate() ?: "brak"}",
                 style = MaterialTheme.typography.body2
             )
             Spacer(modifier = Modifier.height(8.dp))

@@ -18,39 +18,46 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mancode.easycrm.db.Contact
-import com.mancode.easycrm.ui.list.StatusChip
 import com.mancode.easycrm.utils.dialContact
+import com.mancode.easycrm.utils.formatToIsoDate
+import org.threeten.bp.Instant
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
 import org.threeten.bp.format.DateTimeFormatter
 
 @Composable
-fun CustomerDetailsScreen(viewModel: CustomerDetailViewModel, navController: NavController) {
+fun CustomerDetailsScreen(
+    viewModel: CustomerDetailViewModel,
+    navController: NavController,
+    onDateClick: (Int, Instant?) -> Unit
+) {
     val customer by viewModel.customer.collectAsState(initial = null)
     Column(
         modifier = Modifier.padding(16.dp)
     ) {
-        Row(
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(
-                text = customer?.raw?.name ?: "",
-                style = MaterialTheme.typography.h4,
-                modifier = Modifier.weight(0.6f)
-            )
-            StatusChip(
-                text = "Zbieranie danych",
-                modifier = Modifier.weight(0.4f)
-            )
+        Column {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "Ostatni kontakt:",
+                    modifier = Modifier.weight(0.5f)
+                )
+                val instant = customer?.raw?.dateLastContacted
+                DateButton(instant, modifier = Modifier.weight(0.3f)) {
+                    onDateClick(0, instant) // CustomerDetailFragment.DATE_BUTTON_LAST_CONTACT
+                }
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = "Następny kontakt:",
+                    modifier = Modifier.weight(0.5f)
+                )
+                val instant = customer?.raw?.dateNextContact
+                DateButton(instant, modifier = Modifier.weight(0.3f)) {
+                    onDateClick(1, instant) // CustomerDetailFragment.DATE_BUTTON_NEXT_CONTACT
+                }
+            }
         }
-        Text(
-            text = "Ostatni kontakt: ${customer?.raw?.dateLastContacted ?: "brak"}",
-            style = MaterialTheme.typography.body2
-        )
-        Text(
-            text = "Kolejny kontakt: ${customer?.raw?.dateNextContact ?: "brak"}",
-            style = MaterialTheme.typography.body2
-        )
         Spacer(modifier = Modifier.height(24.dp))
         Column {
             Text(
@@ -123,5 +130,14 @@ private fun ContactRow(contact: Contact) {
                 Text(text = "Odłącz kontakt")
             }
         }
+    }
+}
+
+@Composable
+fun DateButton(instant: Instant?, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    OutlinedButton(onClick = onClick, modifier = modifier) {
+        Text(
+            text = instant?.formatToIsoDate() ?: "brak",
+        )
     }
 }

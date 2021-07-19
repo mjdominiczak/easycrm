@@ -3,11 +3,13 @@ package com.mancode.easycrm.ui.details
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mancode.easycrm.db.Contact
+import com.mancode.easycrm.db.InstantConverter
 import com.mancode.easycrm.db.Note
 import com.mancode.easycrm.db.NoteDao
 import com.mancode.easycrm.db.dao.ContactDao
 import com.mancode.easycrm.db.dao.CustomerDao
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.threeten.bp.LocalDateTime
 import org.threeten.bp.ZoneId
@@ -57,6 +59,26 @@ class CustomerDetailViewModel @Inject constructor(
     fun updateNote(note: Note) {
         viewModelScope.launch {
             noteDao.updateNote(note)
+        }
+    }
+
+    fun updateLastContactDate(stamp: Long) {
+        viewModelScope.launch {
+            val instant = InstantConverter.toInstant(stamp)
+            instant?.let {
+                val updated = customer.first().raw.copy(dateLastContacted = instant)
+                customerDao.updateCustomer(updated)
+            }
+        }
+    }
+
+    fun updateNextContactDate(stamp: Long) {
+        viewModelScope.launch {
+            val instant = InstantConverter.toInstant(stamp)
+            instant?.let {
+                val updated = customer.first().raw.copy(dateNextContact = instant)
+                customerDao.updateCustomer(updated)
+            }
         }
     }
 }

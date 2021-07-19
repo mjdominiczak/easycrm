@@ -27,6 +27,9 @@ interface CustomerDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertContacts(contacts: List<Contact>)
 
+    @Update
+    suspend fun updateCustomer(customer: CustomerRaw)
+
     @Delete
     suspend fun deleteCustomer(customer: CustomerRaw)
 

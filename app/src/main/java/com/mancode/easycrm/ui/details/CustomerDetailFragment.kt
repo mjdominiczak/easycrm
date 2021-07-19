@@ -15,10 +15,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
@@ -27,9 +24,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.datepicker.MaterialDatePicker
+import com.mancode.easycrm.ui.list.StatusChip
 import com.mancode.easycrm.ui.theme.EasyCrmTheme
 import com.mancode.easycrm.utils.addContact
 import dagger.hilt.android.AndroidEntryPoint
+import org.threeten.bp.Instant
 
 @ExperimentalAnimationApi
 @AndroidEntryPoint
@@ -59,9 +59,21 @@ class CustomerDetailFragment : Fragment() {
                 EasyCrmTheme {
                     Scaffold(
                         topBar = {
+                            val customer by viewModel.customer.collectAsState(initial = null)
                             TopAppBar(
                                 title = {
-                                    Text(text = "Szczegóły")
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            text = customer?.raw?.name ?: "",
+                                            modifier = Modifier.weight(0.6f)
+                                        )
+                                        StatusChip(
+                                            text = "Zbieranie danych",
+                                            modifier = Modifier.weight(0.4f)
+                                        )
+                                    }
                                 },
                                 navigationIcon = {
                                     IconButton(onClick = { navController.navigateUp() }) {
@@ -118,7 +130,10 @@ class CustomerDetailFragment : Fragment() {
                             }
                         }
                     ) {
-                        CustomerDetailsScreen(viewModel, navController)
+                        CustomerDetailsScreen(
+                            viewModel,
+                            navController
+                        ) { buttonId, instant -> showDatePicker(buttonId, instant) }
                     }
                     if (openDialog) {
                         AlertDialog(
@@ -176,5 +191,26 @@ class CustomerDetailFragment : Fragment() {
                 viewModel.insertContact(lookupKey, name, hasPhoneNumber)
             }
         }
+    }
+
+    private fun showDatePicker(buttonId: Int, instant: Instant?) {
+        val picker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Wybierz datę")
+            .setSelection(instant?.toEpochMilli())
+            .build()
+        activity?.let {
+            picker.show(it.supportFragmentManager, picker.toString())
+            picker.addOnPositiveButtonClickListener { stamp ->
+                when (buttonId) {
+                    DATE_BUTTON_LAST_CONTACT -> viewModel.updateLastContactDate(stamp)
+                    DATE_BUTTON_NEXT_CONTACT -> viewModel.updateNextContactDate(stamp)
+                }
+            }
+        }
+    }
+
+    companion object {
+        const val DATE_BUTTON_LAST_CONTACT = 0
+        const val DATE_BUTTON_NEXT_CONTACT = 1
     }
 }
