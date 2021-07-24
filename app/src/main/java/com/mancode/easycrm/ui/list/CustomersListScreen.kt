@@ -15,9 +15,11 @@ import androidx.navigation.NavController
 @Composable
 fun CustomersList(viewModel: CustomersListViewModel, navController: NavController) {
     val customers by viewModel.customers.collectAsState(initial = listOf())
+    val filterText = viewModel.filterState.value.text
+    val customersFiltered = customers.filter { it.raw.name.lowercase().contains(filterText.lowercase()) }
     if (customers.isNotEmpty()) {
         LazyColumn {
-            items(items = customers,
+            items(items = if (filterText.isBlank()) customers else customersFiltered,
                 itemContent = { customer ->
                     val action =
                         CustomersListFragmentDirections.actionCustomersListFragmentToCustomerDetailFragment(
