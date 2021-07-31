@@ -11,24 +11,25 @@ import androidx.compose.material.TextFieldDefaults.textFieldColors
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun SearchView(state: MutableState<TextFieldValue>) {
+    val focusRequester = remember { FocusRequester() }
     TextField(
         value = state.value,
         onValueChange = { value ->
             state.value = value
         },
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .focusRequester(focusRequester),
         leadingIcon = {
             Icon(
                 Icons.Default.Search,
@@ -58,6 +59,10 @@ fun SearchView(state: MutableState<TextFieldValue>) {
             unfocusedIndicatorColor = MaterialTheme.colors.background.copy(alpha = 0f),
         )
     )
+    DisposableEffect(Unit) {
+        focusRequester.requestFocus()
+        onDispose { }
+    }
 }
 
 @Preview(showBackground = true)
