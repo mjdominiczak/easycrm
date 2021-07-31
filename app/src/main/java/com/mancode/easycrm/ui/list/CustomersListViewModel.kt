@@ -11,7 +11,10 @@ import com.mancode.easycrm.data.customersRaw
 import com.mancode.easycrm.db.Customer
 import com.mancode.easycrm.db.CustomerRaw
 import com.mancode.easycrm.db.dao.CustomerDao
+import com.mancode.easycrm.ui.list.SortOrder.BY_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -22,8 +25,15 @@ class CustomersListViewModel @Inject constructor(
 
     val customers = customerDao.getCustomers()
 
-    // VM probably shouldn't keep state (?)
+    private val _searchActivated = MutableStateFlow(false)
+    val searchActivated = _searchActivated.asStateFlow()
+
+    fun onSearchStateChanged(active: Boolean) {
+        _searchActivated.value = active
+    }
+
     val filterState = mutableStateOf(TextFieldValue(""))
+    var sortOrder = mutableStateOf(BY_NAME)
 
     fun populateDB() {
         viewModelScope.launch {
@@ -51,5 +61,8 @@ class CustomersListViewModel @Inject constructor(
             customerDao.deleteNotes(customer.notes)
         }
     }
+}
 
+enum class SortOrder {
+    BY_NAME, BY_NEXT_CONTACT_DATE
 }
