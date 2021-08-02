@@ -18,6 +18,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -118,7 +119,10 @@ private fun TopBarWithSearch(
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Spacer(modifier = Modifier.width(4.dp))
-                    IconButton(onClick = { onSearchStateChanged(false) }) {
+                    IconButton(onClick = {
+                        viewModel.filterState.value = TextFieldValue("")
+                        onSearchStateChanged(false)
+                    }) {
                         Icon(
                             imageVector = Icons.Filled.ArrowBack,
                             contentDescription = ""
