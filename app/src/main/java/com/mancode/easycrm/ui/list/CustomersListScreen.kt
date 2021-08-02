@@ -6,10 +6,13 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import org.threeten.bp.Instant
 
 @Composable
 fun CustomersList(viewModel: CustomersListViewModel, navController: NavController) {
@@ -20,8 +23,10 @@ fun CustomersList(viewModel: CustomersListViewModel, navController: NavControlle
         customers else
         customers.filter { it.raw.name.lowercase().contains(filterText.lowercase()) }
     val listToDisplay = when (sortOrder) {
-        SortOrder.BY_NAME -> customersFiltered.sortedBy { it.raw.name }
-        SortOrder.BY_NEXT_CONTACT_DATE -> customersFiltered.sortedBy { it.raw.dateNextContact }
+        SortOrder.BY_NAME -> customersFiltered.sortedBy { it.raw.name.lowercase() }
+        SortOrder.BY_NEXT_CONTACT_DATE -> customersFiltered.sortedBy {
+            it.raw.dateNextContact ?: Instant.now().plusSeconds(3600 * 24 * 365 * 100L)
+        }
     }
     if (customers.isNotEmpty()) {
         Crossfade(targetState = listToDisplay) {
@@ -37,7 +42,8 @@ fun CustomersList(viewModel: CustomersListViewModel, navController: NavControlle
                             onClick = { navController.navigate(action) })
                     })
             }
-        }    } else {
+        }
+    } else {
         Button(onClick = { viewModel.populateDB() }, modifier = Modifier.padding(8.dp)) {
             Text(text = "Dodaj wpisy")
         }
