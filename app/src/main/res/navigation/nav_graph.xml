@@ -42,6 +42,6 @@
     </dialog>
     <dialog
         android:id="@+id/addCustomerDialog"
-        android:name="com.mancode.easycrm.ui.list.AddCustomerDialog"
+        android:name="com.mancode.easycrm.ui.addedit.AddEditCustomerDialog"
         android:label="AddCustomerDialog" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.mancode.easycrm.ui.list
+package com.mancode.easycrm.ui.addedit
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,12 +8,13 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.mancode.easycrm.ui.list.CustomerEditor
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddCustomerDialog : DialogFragment() {
+class AddEditCustomerDialog : DialogFragment() {
 
-    private val viewModel: CustomersListViewModel by viewModels(ownerProducer = { requireParentFragment() })
+    private val viewModel: AddEditCustomerViewModel by viewModels()
     private val navController by lazy { findNavController() }
 
     override fun onCreateView(
@@ -23,7 +24,10 @@ class AddCustomerDialog : DialogFragment() {
     ): View {
         return ComposeView(requireContext()).apply {
             setContent {
-                CustomerEditor(viewModel, navController)
+                CustomerEditor { name ->
+                    viewModel.insertCustomer(name)
+                    navController.navigateUp()
+                }
             }
         }
     }

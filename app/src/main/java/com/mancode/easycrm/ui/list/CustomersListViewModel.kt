@@ -9,7 +9,6 @@ import com.mancode.easycrm.data.addresses
 import com.mancode.easycrm.data.contacts
 import com.mancode.easycrm.data.customersRaw
 import com.mancode.easycrm.db.Customer
-import com.mancode.easycrm.db.CustomerRaw
 import com.mancode.easycrm.db.dao.CustomerDao
 import com.mancode.easycrm.ui.list.SortOrder.BY_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,14 +39,6 @@ class CustomersListViewModel @Inject constructor(
             customerDao.insertAddresses(addresses)
             customerDao.insertContacts(contacts)
             customerDao.insertAll(customersRaw)
-        }
-    }
-
-    fun insertCustomer(name: String) {
-        viewModelScope.launch {
-            customerDao.insertCustomer(
-                CustomerRaw(0, name)
-            )
         }
     }
 

@@ -8,10 +8,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 
 @Composable
-fun CustomerEditor(viewModel: CustomersListViewModel, navController: NavController) {
+fun CustomerEditor(onNameEntered: (String) -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -28,8 +27,7 @@ fun CustomerEditor(viewModel: CustomersListViewModel, navController: NavControll
         Button(
             onClick = {
                 if (name.isNotEmpty()) {
-                    viewModel.insertCustomer(name)
-                    navController.navigateUp()
+                    onNameEntered(name)
                 }
             },
             modifier = Modifier.align(Alignment.CenterHorizontally)
