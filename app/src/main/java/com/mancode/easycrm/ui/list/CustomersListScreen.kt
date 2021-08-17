@@ -12,6 +12,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import com.mancode.easycrm.app.EasyCrmScreen
 import org.threeten.bp.Instant
 
 @Composable
@@ -33,13 +34,13 @@ fun CustomersList(viewModel: CustomersListViewModel, navController: NavControlle
             LazyColumn {
                 items(items = it,
                     itemContent = { customer ->
-                        val action =
-                            CustomersListFragmentDirections.actionCustomersListFragmentToCustomerDetailFragment(
-                                customer.raw.id
-                            )
                         CustomerCard(
                             customer = customer,
-                            onClick = { navController.navigate(action) })
+                            onClick = {
+                                navController.navigate(
+                                    "${EasyCrmScreen.CustomerDetail.name}/${customer.raw.id}"
+                                )
+                            })
                     })
             }
         }

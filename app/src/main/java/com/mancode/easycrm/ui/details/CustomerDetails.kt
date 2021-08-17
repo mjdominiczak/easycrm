@@ -17,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
+import com.mancode.easycrm.app.EasyCrmScreen
 import com.mancode.easycrm.db.Contact
 import com.mancode.easycrm.utils.dialContact
 import com.mancode.easycrm.utils.formatToIsoDate
@@ -29,7 +30,7 @@ import org.threeten.bp.format.DateTimeFormatter
 fun CustomerDetailsScreen(
     viewModel: CustomerDetailViewModel,
     navController: NavController,
-    onDateClick: (Int, Instant?) -> Unit
+    onDateClick: (DateButtons, Instant?) -> Unit
 ) {
     val customer by viewModel.customer.collectAsState(initial = null)
     Column(
@@ -43,7 +44,7 @@ fun CustomerDetailsScreen(
                 )
                 val instant = customer?.raw?.dateLastContacted
                 DateButton(instant, modifier = Modifier.weight(0.3f)) {
-                    onDateClick(0, instant) // CustomerDetailFragment.DATE_BUTTON_LAST_CONTACT
+                    onDateClick(DateButtons.LAST_CONTACT, instant)
                 }
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -54,7 +55,7 @@ fun CustomerDetailsScreen(
                 )
                 val instant = customer?.raw?.dateNextContact
                 DateButton(instant, modifier = Modifier.weight(0.3f)) {
-                    onDateClick(1, instant) // CustomerDetailFragment.DATE_BUTTON_NEXT_CONTACT
+                    onDateClick(DateButtons.NEXT_CONTACT, instant)
                 }
             }
         }
@@ -83,12 +84,7 @@ fun CustomerDetailsScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                            val dirs =
-                                CustomerDetailFragmentDirections.actionCustomerDetailFragmentToNoteDialog(
-                                    viewModel.customerId!!,
-                                    note.id
-                                )
-                            navController.navigate(dirs)
+                            navController.navigate("${EasyCrmScreen.NoteDialog.name}/${viewModel.customerId!!}?noteId=${note.id}")
                         })
             }
         }
