@@ -49,10 +49,6 @@ fun CustomerDetailsFrag(viewModel: CustomerDetailViewModel, navController: NavHo
                                     // TODO: make customer name editable
                                 }
                         )
-                        StatusChip(
-                            text = "Zbieranie danych",
-                            modifier = Modifier.weight(0.4f)
-                        )
                     }
                 },
                 navigationIcon = {

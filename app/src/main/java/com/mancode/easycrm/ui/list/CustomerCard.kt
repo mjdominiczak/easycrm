@@ -82,8 +82,6 @@ fun CustomerCard(customer: Customer, onClick: (Int) -> Unit) {
                     val contact = customer.contacts[0]
                     CallButton(contact)
                 }
-                Spacer(modifier = Modifier.width(8.dp))
-                StatusChip(text = "Zbieranie danych")
             }
         }
     }
