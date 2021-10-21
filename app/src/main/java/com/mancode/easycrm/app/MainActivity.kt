@@ -10,6 +10,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.*
+import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.mancode.easycrm.ui.addedit.AddEditCustomerViewModel
 import com.mancode.easycrm.ui.details.CustomerDetailViewModel
