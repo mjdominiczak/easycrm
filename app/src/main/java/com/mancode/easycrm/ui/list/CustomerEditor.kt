@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun CustomerEditor(onNameEntered: (String) -> Unit) {
+fun CustomerEditor(initialName: String = "", onNameEntered: (String) -> Unit) {
     Surface(
         color = MaterialTheme.colors.background,
         elevation = 24.dp,
@@ -20,7 +20,7 @@ fun CustomerEditor(onNameEntered: (String) -> Unit) {
                 .fillMaxWidth()
                 .padding(8.dp)
         ) {
-            var name by remember { mutableStateOf("") }
+            var name by remember { mutableStateOf(initialName) }
             TextField(
                 value = name,
                 onValueChange = { name = it },

@@ -20,4 +20,12 @@ class AddEditCustomerViewModel @Inject constructor(
             )
         }
     }
+
+    fun updateCustomer(id: Int, newName: String) {
+        viewModelScope.launch {
+            customerDao.updateCustomer(
+                CustomerRaw(id, newName)
+            )
+        }
+    }
 }

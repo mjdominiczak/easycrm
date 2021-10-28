@@ -25,7 +25,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.mancode.easycrm.app.EasyCrmScreen
 import com.mancode.easycrm.ui.details.DateButtons.LAST_CONTACT
 import com.mancode.easycrm.ui.details.DateButtons.NEXT_CONTACT
-import com.mancode.easycrm.ui.list.StatusChip
 import com.mancode.easycrm.utils.addContact
 import org.threeten.bp.Instant
 
@@ -37,23 +36,17 @@ fun CustomerDetailsFrag(viewModel: CustomerDetailViewModel, navController: NavHo
         topBar = {
             val customer by viewModel.customer.collectAsState(initial = null)
             TopAppBar(
-                title = {
-                    Row(
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = customer?.raw?.name ?: "",
-                            modifier = Modifier
-                                .weight(0.6f)
-                                .clickable {
-                                    // TODO: make customer name editable
-                                }
-                        )
-                    }
-                },
+                title = { Text(text = customer?.raw?.name ?: "") },
                 navigationIcon = {
                     IconButton(onClick = { navController.navigateUp() }) {
                         Icon(Icons.Filled.ArrowBack, contentDescription = "")
+                    }
+                },
+                actions = {
+                    IconButton(onClick = {
+                        navController.navigate("${EasyCrmScreen.AddEditCustomerDialog.name}/${customer?.raw?.id}/${customer?.raw?.name}")
+                    }) {
+                        Icon(Icons.Filled.Edit, contentDescription = "")
                     }
                 }
             )

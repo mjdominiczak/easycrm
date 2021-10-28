@@ -9,7 +9,10 @@ import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
-import androidx.navigation.compose.*
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.dialog
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.mancode.easycrm.ui.addedit.AddEditCustomerViewModel
@@ -80,6 +83,26 @@ fun EasyCrmNavHost(navController: NavHostController) {
                     viewModel = viewModel,
                     navController = navController,
                 )
+            }
+            dialog(
+                route = "${EasyCrmScreen.AddEditCustomerDialog.name}/{customerId}/{customerName}",
+                arguments = listOf(
+                    navArgument("customerId") {
+                        type = NavType.IntType
+                        defaultValue = -1
+                    },
+                    navArgument("customerName") {
+                        type = NavType.StringType
+                        defaultValue = ""
+                    }
+                )
+            ) { backStackEntry ->
+                val viewModel = hiltViewModel<AddEditCustomerViewModel>()
+                val id = backStackEntry.arguments?.getInt("customerId")!!
+                CustomerEditor(initialName = backStackEntry.arguments?.getString("customerName")!!) { name ->
+                    viewModel.updateCustomer(id, name)
+                    navController.navigateUp()
+                }
             }
             dialog(
                 route = "${EasyCrmScreen.NoteDialog.name}/{customerId}?noteId={noteId}",
