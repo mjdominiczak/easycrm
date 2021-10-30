@@ -3,7 +3,7 @@ buildscript {
     ext {
         compose_version = '1.0.4'
         kotlin_version = "1.5.31"
-        hilt_version = "2.38.1"
+        hilt_version = "2.40"
     }
     repositories {
         google()
@@ -22,7 +22,6 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter()
         mavenCentral()
     }
 }
