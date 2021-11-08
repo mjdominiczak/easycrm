@@ -1,9 +1,7 @@
 package com.mancode.easycrm.ui.list
 
 import androidx.compose.animation.Crossfade
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -18,14 +16,36 @@ import com.mancode.easycrm.app.EasyCrmScreen
 import com.mancode.easycrm.ui.list.SortOrder.BY_NAME
 import com.mancode.easycrm.ui.list.SortOrder.BY_NEXT_CONTACT_DATE
 import com.mancode.easycrm.ui.views.SearchView
+import kotlinx.coroutines.launch
 
 @Composable
 fun CustomersListFrag(viewModel: CustomersListViewModel, navController: NavHostController) {
+    val scaffoldState = rememberScaffoldState()
+    val coroutineScope = rememberCoroutineScope()
     Scaffold(
+        scaffoldState = scaffoldState,
         topBar = {
             var searchActive by remember { mutableStateOf(false) }
-            TopBarWithSearch(searchActive) { activate ->
-                searchActive = activate
+            TopBarWithSearch(
+                onNavigationIconClicked = {
+                    coroutineScope.launch {
+                        scaffoldState.drawerState.apply {
+                            if (isClosed) open() else close()
+                        }
+                    }
+                },
+                searchActivated = searchActive,
+                onSearchStateChanged = { activate ->
+                    searchActive = activate
+                }
+            )
+        },
+        drawerContent = {
+            Box(modifier = Modifier.padding(16.dp)) {
+                Text(
+                    text = "Easy CRM",
+                    style = MaterialTheme.typography.h4
+                )
             }
         },
         floatingActionButton = {
@@ -42,6 +62,7 @@ fun CustomersListFrag(viewModel: CustomersListViewModel, navController: NavHostC
 
 @Composable
 fun TopBarWithSearch(
+    onNavigationIconClicked: () -> Unit,
     searchActivated: Boolean = false,
     onSearchStateChanged: (Boolean) -> Unit
 ) {
@@ -49,6 +70,11 @@ fun TopBarWithSearch(
     Crossfade(targetState = searchActivated) { showSearch ->
         if (!showSearch) {
             TopAppBar(
+                navigationIcon = {
+                    IconButton(onClick = { onNavigationIconClicked() }) {
+                        Icon(imageVector = Icons.Filled.Menu, contentDescription = "")
+                    }
+                },
                 title = {
                     Text(text = "Easy CRM")
                 },
