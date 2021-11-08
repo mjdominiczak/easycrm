@@ -96,13 +96,14 @@ fun CustomerDetailsScreen(
 private fun ContactRow(contact: Contact) {
     val viewModel: CustomerDetailViewModel = viewModel()
     var showMenu by remember { mutableStateOf(false) }
+    val context = LocalContext.current
     Row(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
             .combinedClickable(onLongClick = {
                 showMenu = true
-            }) {}
+            }) { dialContact(context, contact) }
     ) {
         Text(text = contact.name)
         Row(
@@ -115,7 +116,6 @@ private fun ContactRow(contact: Contact) {
                 }
             }
             if (contact.hasPhoneNumber) {
-                val context = LocalContext.current
                 IconButton(onClick = { dialContact(context, contact) }) {
                     Icon(imageVector = Icons.Filled.Call, contentDescription = "")
                 }
