@@ -15,6 +15,7 @@ import androidx.navigation.NavHostController
 import com.mancode.easycrm.app.EasyCrmScreen
 import com.mancode.easycrm.ui.list.SortOrder.BY_NAME
 import com.mancode.easycrm.ui.list.SortOrder.BY_NEXT_CONTACT_DATE
+import com.mancode.easycrm.ui.views.Drawer
 import com.mancode.easycrm.ui.views.SearchView
 import kotlinx.coroutines.launch
 
@@ -41,12 +42,7 @@ fun CustomersListFrag(viewModel: CustomersListViewModel, navController: NavHostC
             )
         },
         drawerContent = {
-            Box(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = "Easy CRM",
-                    style = MaterialTheme.typography.h4
-                )
-            }
+            Drawer()
         },
         floatingActionButton = {
             FloatingActionButton(onClick = {
