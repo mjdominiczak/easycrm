@@ -38,9 +38,9 @@ fun Drawer() {
         val items = listOf(
             NavDrawerItem.Home,
             NavDrawerItem.Customers,
+            NavDrawerItem.Tasks,
             NavDrawerItem.Analytics,
             NavDrawerItem.Funnel,
-            NavDrawerItem.Offers,
             NavDrawerItem.Settings,
             NavDrawerItem.Help,
         )
@@ -91,7 +91,7 @@ sealed class NavDrawerItem(var icon: ImageVector, var title: String) {
     object Customers : NavDrawerItem(Icons.Default.Group, "Klienci")
     object Analytics : NavDrawerItem(Icons.Default.TrendingUp, "Analityka")
     object Funnel : NavDrawerItem(Icons.Default.FilterAlt, "Lejek sprzedaży")
-    object Offers : NavDrawerItem(Icons.Default.LocalOffer, "Oferty do przygotowania")
+    object Tasks : NavDrawerItem(Icons.Default.Task, "Zadania")
     object Settings : NavDrawerItem(Icons.Default.Settings, "Ustawienia")
     object Help : NavDrawerItem(Icons.Default.Help, "Pomoc")
 }
