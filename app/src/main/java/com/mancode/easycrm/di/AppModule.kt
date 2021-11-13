@@ -3,7 +3,7 @@ package com.mancode.easycrm.di
 import android.app.Application
 import androidx.room.Room
 import com.mancode.easycrm.db.EasyCrmDatabase
-import com.mancode.easycrm.db.NoteDao
+import com.mancode.easycrm.db.dao.NoteDao
 import com.mancode.easycrm.db.dao.ContactDao
 import com.mancode.easycrm.db.dao.CustomerDao
 import dagger.Module

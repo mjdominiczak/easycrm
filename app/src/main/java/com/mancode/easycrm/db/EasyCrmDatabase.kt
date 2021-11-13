@@ -5,6 +5,7 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.mancode.easycrm.db.dao.ContactDao
 import com.mancode.easycrm.db.dao.CustomerDao
+import com.mancode.easycrm.db.dao.NoteDao
 
 @TypeConverters(InstantConverter::class)
 @Database(entities = [CustomerRaw::class, Address::class, Contact::class, Note::class], version = 1)

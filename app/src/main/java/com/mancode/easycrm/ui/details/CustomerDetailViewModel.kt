@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.mancode.easycrm.db.Contact
 import com.mancode.easycrm.db.InstantConverter
 import com.mancode.easycrm.db.Note
-import com.mancode.easycrm.db.NoteDao
+import com.mancode.easycrm.db.dao.NoteDao
 import com.mancode.easycrm.db.dao.ContactDao
 import com.mancode.easycrm.db.dao.CustomerDao
 import dagger.hilt.android.lifecycle.HiltViewModel

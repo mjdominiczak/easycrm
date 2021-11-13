@@ -1,6 +1,7 @@
-package com.mancode.easycrm.db
+package com.mancode.easycrm.db.dao
 
 import androidx.room.*
+import com.mancode.easycrm.db.Note
 import kotlinx.coroutines.flow.Flow
 
 @Dao
