@@ -5,9 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.mancode.easycrm.db.Contact
 import com.mancode.easycrm.db.InstantConverter
 import com.mancode.easycrm.db.Note
-import com.mancode.easycrm.db.dao.NoteDao
+import com.mancode.easycrm.db.Task
 import com.mancode.easycrm.db.dao.ContactDao
 import com.mancode.easycrm.db.dao.CustomerDao
+import com.mancode.easycrm.db.dao.NoteDao
+import com.mancode.easycrm.db.dao.TaskDao
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -19,7 +21,8 @@ import javax.inject.Inject
 class CustomerDetailViewModel @Inject constructor(
     private val noteDao: NoteDao,
     private val customerDao: CustomerDao,
-    private val contactDao: ContactDao
+    private val contactDao: ContactDao,
+    private val taskDao: TaskDao
 ) : ViewModel() {
 
     var customerId: Int? = null
@@ -27,6 +30,7 @@ class CustomerDetailViewModel @Inject constructor(
     val customer by lazy { customerDao.getCustomerById(customerId!!) }
 
     fun getNotes() = noteDao.getNotesForCustomer(customerId!!)
+    fun getTasks() = taskDao.getTasksForCustomer(customerId!!)
 
     fun getNoteToUpdate() = noteDao.getNoteById(noteId)
 
@@ -59,6 +63,26 @@ class CustomerDetailViewModel @Inject constructor(
     fun updateNote(note: Note) {
         viewModelScope.launch {
             noteDao.updateNote(note)
+        }
+    }
+
+    fun insertTask(description: String) {
+        viewModelScope.launch {
+            taskDao.insertTask(
+                Task(
+                    id = 0,
+                    customerId = customerId!!,
+                    description = description
+                )
+            )
+        }
+    }
+
+    fun flipTaskChecked(task: Task) {
+        viewModelScope.launch {
+            taskDao.updateTask(
+                task.copy(done = !task.done)
+            )
         }
     }
 

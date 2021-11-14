@@ -19,6 +19,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.mancode.easycrm.app.EasyCrmScreen
 import com.mancode.easycrm.db.Contact
+import com.mancode.easycrm.db.Task
 import com.mancode.easycrm.utils.dialContact
 import com.mancode.easycrm.utils.formatToIsoDate
 import org.threeten.bp.Instant
@@ -70,6 +71,13 @@ fun CustomerDetailsScreen(
             }
         }
         Spacer(modifier = Modifier.height(24.dp))
+        val tasks by viewModel.getTasks().collectAsState(initial = emptyList())
+        TasksSection(
+            tasks = tasks,
+            onTaskCheckedChanged = { task -> viewModel.flipTaskChecked(task) },
+            onTaskAdded = { description -> viewModel.insertTask(description) }
+        )
+        Spacer(modifier = Modifier.height(24.dp))
         Text(
             text = "Notatki:",
             style = MaterialTheme.typography.h6
@@ -89,6 +97,22 @@ fun CustomerDetailsScreen(
             }
         }
     }
+}
+
+@Composable
+private fun TasksSection(
+    tasks: List<Task>,
+    onTaskCheckedChanged: (Task) -> Unit,
+    onTaskAdded: (String) -> Unit
+) {
+    Text(
+        text = "Zadania:",
+        style = MaterialTheme.typography.h6
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    TaskList(tasks = tasks) { task -> onTaskCheckedChanged(task) }
+    Spacer(modifier = Modifier.height(16.dp))
+    AddTaskRow { description -> onTaskAdded(description) }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
