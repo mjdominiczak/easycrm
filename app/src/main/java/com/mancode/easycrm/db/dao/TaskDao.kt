@@ -1,9 +1,6 @@
 package com.mancode.easycrm.db.dao
 
-import androidx.room.Dao
-import androidx.room.Insert
-import androidx.room.Query
-import androidx.room.Update
+import androidx.room.*
 import com.mancode.easycrm.db.Task
 import kotlinx.coroutines.flow.Flow
 
@@ -17,4 +14,7 @@ interface TaskDao {
 
     @Update
     suspend fun updateTask(task: Task)
+
+    @Delete
+    suspend fun deleteTask(task: Task)
 }

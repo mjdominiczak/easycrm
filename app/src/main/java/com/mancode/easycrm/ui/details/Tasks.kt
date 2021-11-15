@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import com.mancode.easycrm.db.Task
 
 @Composable
-fun TaskRow(task: Task, onTaskCheckedChanged: (Task) -> Unit) {
+fun TaskRow(task: Task, onTaskCheckedChanged: (Task) -> Unit, onTaskDeleted: (Task) -> Unit) {
     Column(
         modifier = Modifier
             .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
@@ -32,10 +33,19 @@ fun TaskRow(task: Task, onTaskCheckedChanged: (Task) -> Unit) {
             val style =
                 if (task.done) TextStyle(textDecoration = TextDecoration.LineThrough)
                 else TextStyle.Default
-            Text(
-                text = task.description,
-                style = style
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = task.description,
+                    style = style
+                )
+                IconButton(onClick = { onTaskDeleted(task) }) {
+                    Image(imageVector = Icons.Default.Delete, contentDescription = "", alpha = 0.5f)
+                }
+            }
         }
 //        Row(modifier = Modifier.padding(start = 32.dp)) {
 //            TextButton(onClick = { /*TODO*/ }) {
@@ -72,10 +82,18 @@ fun AddTaskRow(onTaskAdded: (String) -> Unit) {
 }
 
 @Composable
-fun TaskList(tasks: List<Task>, onTaskCheckedChanged: (Task) -> Unit) {
+fun TaskList(
+    tasks: List<Task>,
+    onTaskCheckedChanged: (Task) -> Unit,
+    onTaskDeleted: (Task) -> Unit
+) {
     Column {
         tasks.forEach {
-            TaskRow(task = it, onTaskCheckedChanged = { task -> onTaskCheckedChanged(task) })
+            TaskRow(
+                task = it,
+                onTaskCheckedChanged = { task -> onTaskCheckedChanged(task) },
+                onTaskDeleted = { task -> onTaskDeleted(task) }
+            )
         }
     }
 }
@@ -85,7 +103,8 @@ fun TaskList(tasks: List<Task>, onTaskCheckedChanged: (Task) -> Unit) {
 fun TaskRowPreview() {
     TaskRow(
         task = Task(id = 1, customerId = 1, description = "Opis zadania", done = true),
-        onTaskCheckedChanged = {}
+        onTaskCheckedChanged = {},
+        onTaskDeleted = {}
     )
 }
 
@@ -99,6 +118,6 @@ fun TaskListPreview() {
         Task(id = 4, customerId = 1, description = "Opis zadania 4", done = true),
         Task(id = 5, customerId = 1, description = "Opis zadania 5", done = false),
     )
-    TaskList(tasks = tasks) {}
+    TaskList(tasks = tasks, {}, {})
 }
 

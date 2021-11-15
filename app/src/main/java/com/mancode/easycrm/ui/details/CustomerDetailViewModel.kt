@@ -78,6 +78,12 @@ class CustomerDetailViewModel @Inject constructor(
         }
     }
 
+    fun deleteTask(task: Task) {
+        viewModelScope.launch {
+            taskDao.deleteTask(task)
+        }
+    }
+
     fun flipTaskChecked(task: Task) {
         viewModelScope.launch {
             taskDao.updateTask(

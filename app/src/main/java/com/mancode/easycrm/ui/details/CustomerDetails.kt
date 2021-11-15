@@ -73,7 +73,8 @@ fun CustomerDetailsScreen(
         TasksSection(
             tasks = tasks,
             onTaskCheckedChanged = { task -> viewModel.flipTaskChecked(task) },
-            onTaskAdded = { description -> viewModel.insertTask(description) }
+            onTaskAdded = { description -> viewModel.insertTask(description) },
+            onTaskDeleted = { task -> viewModel.deleteTask(task) }
         )
         Spacer(modifier = Modifier.height(24.dp))
         Text(
@@ -101,14 +102,19 @@ fun CustomerDetailsScreen(
 private fun TasksSection(
     tasks: List<Task>,
     onTaskCheckedChanged: (Task) -> Unit,
-    onTaskAdded: (String) -> Unit
+    onTaskAdded: (String) -> Unit,
+    onTaskDeleted: (Task) -> Unit
 ) {
     Text(
         text = "Zadania:",
         style = MaterialTheme.typography.h6
     )
     Spacer(modifier = Modifier.height(8.dp))
-    TaskList(tasks = tasks) { task -> onTaskCheckedChanged(task) }
+    TaskList(
+        tasks = tasks,
+        onTaskCheckedChanged = { task -> onTaskCheckedChanged(task) },
+        onTaskDeleted = { task -> onTaskDeleted(task) }
+    )
     Spacer(modifier = Modifier.height(16.dp))
     AddTaskRow { description -> onTaskAdded(description) }
 }
