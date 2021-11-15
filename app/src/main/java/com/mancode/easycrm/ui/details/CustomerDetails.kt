@@ -1,11 +1,7 @@
 package com.mancode.easycrm.ui.details
 
-import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Call
@@ -35,7 +31,9 @@ fun CustomerDetailsScreen(
 ) {
     val customer by viewModel.customer.collectAsState(initial = null)
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
+            .verticalScroll(rememberScrollState())
     ) {
         Column {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -83,8 +81,8 @@ fun CustomerDetailsScreen(
             style = MaterialTheme.typography.h6
         )
         val notes by viewModel.getNotes().collectAsState(initial = emptyList())
-        LazyColumn(modifier = Modifier.fillMaxWidth()) {
-            items(notes) { note ->
+        Column(modifier = Modifier.fillMaxWidth()) {
+            notes.forEach { note ->
                 val dateTime = LocalDateTime.ofInstant(note.timestamp, ZoneId.systemDefault())
                     .format(DateTimeFormatter.ofPattern("dd.MM.yyyy, hh:mm"))
                 Text(
