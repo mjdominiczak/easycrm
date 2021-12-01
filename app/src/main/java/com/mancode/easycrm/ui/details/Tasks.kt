@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,44 +16,54 @@ import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mancode.easycrm.db.Task
+import com.mancode.easycrm.ui.views.ExpandableCard
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun TaskRow(task: Task, onTaskCheckedChanged: (Task) -> Unit, onTaskDeleted: (Task) -> Unit) {
-    Column(
-        modifier = Modifier
-            .padding(start = 8.dp, end = 8.dp, bottom = 8.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .height(32.dp)
-                .fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Checkbox(checked = task.done, onCheckedChange = { onTaskCheckedChanged(task) })
-            Spacer(modifier = Modifier.width(16.dp))
-            val style =
-                if (task.done) TextStyle(textDecoration = TextDecoration.LineThrough)
-                else TextStyle.Default
+    ExpandableCard(
+        content = {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                modifier = Modifier
+                    .height(32.dp)
+                    .fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically
             ) {
+                Checkbox(checked = task.done, onCheckedChange = { onTaskCheckedChanged(task) })
+                Spacer(modifier = Modifier.width(16.dp))
+                val style =
+                    if (task.done) TextStyle(textDecoration = TextDecoration.LineThrough)
+                    else TextStyle.Default
                 Text(
+                    modifier = Modifier.fillMaxWidth(),
                     text = task.description,
                     style = style
                 )
+            }
+        },
+        additionalContent = {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.End
+            ) {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Image(
+                        imageVector = Icons.Default.Schedule,
+                        contentDescription = "",
+                        alpha = 0.5f
+                    )
+                }
                 IconButton(onClick = { onTaskDeleted(task) }) {
-                    Image(imageVector = Icons.Default.Delete, contentDescription = "", alpha = 0.5f)
+                    Image(
+                        imageVector = Icons.Default.Delete,
+                        contentDescription = "",
+                        alpha = 0.5f
+                    )
                 }
             }
         }
-//        Row(modifier = Modifier.padding(start = 32.dp)) {
-//            TextButton(onClick = { /*TODO*/ }) {
-//                Text(text = "Przypomnienie")
-//            }
-//        }
-    }
+    )
 }
 
 @Composable
@@ -94,6 +105,7 @@ fun TaskList(
                 onTaskCheckedChanged = { task -> onTaskCheckedChanged(task) },
                 onTaskDeleted = { task -> onTaskDeleted(task) }
             )
+            Spacer(modifier = Modifier.height(8.dp))
         }
     }
 }
