@@ -19,14 +19,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
 import androidx.navigation.NavHostController
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.mancode.easycrm.app.EasyCrmScreen
 import com.mancode.easycrm.ui.details.DateButtons.LAST_CONTACT
 import com.mancode.easycrm.ui.details.DateButtons.NEXT_CONTACT
 import com.mancode.easycrm.utils.addContact
-import org.threeten.bp.Instant
+import com.mancode.easycrm.utils.showDatePicker
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
@@ -180,21 +178,6 @@ fun addSelectedContact(viewModel: CustomerDetailViewModel, context: Context, uri
             ).toInt() != 0
             viewModel.insertContact(lookupKey, name, hasPhoneNumber)
         }
-    }
-}
-
-fun showDatePicker(
-    fragmentManager: FragmentManager,
-    instant: Instant?,
-    onDateEntered: (Long) -> Unit,
-) {
-    val picker = MaterialDatePicker.Builder.datePicker()
-        .setTitleText("Wybierz datę")
-        .setSelection(instant?.toEpochMilli())
-        .build()
-    picker.show(fragmentManager, picker.toString())
-    picker.addOnPositiveButtonClickListener { stamp ->
-        onDateEntered(stamp)
     }
 }
 
