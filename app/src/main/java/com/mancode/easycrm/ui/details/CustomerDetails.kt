@@ -73,6 +73,7 @@ fun CustomerDetailsScreen(
         TasksSection(
             tasks = tasks,
             onTaskCheckedChanged = { task -> viewModel.flipTaskChecked(task) },
+            onTaskDateAdded = { task, stamp -> viewModel.updateTaskDate(task, stamp) },
             onTaskAdded = { description -> viewModel.insertTask(description) },
             onTaskDeleted = { task -> viewModel.deleteTask(task) }
         )
@@ -102,6 +103,7 @@ fun CustomerDetailsScreen(
 private fun TasksSection(
     tasks: List<Task>,
     onTaskCheckedChanged: (Task) -> Unit,
+    onTaskDateAdded: (Task, Long) -> Unit,
     onTaskAdded: (String) -> Unit,
     onTaskDeleted: (Task) -> Unit
 ) {
@@ -113,6 +115,7 @@ private fun TasksSection(
     TaskList(
         tasks = tasks,
         onTaskCheckedChanged = { task -> onTaskCheckedChanged(task) },
+        onTaskDateAdded = { task, stamp -> onTaskDateAdded(task, stamp) },
         onTaskDeleted = { task -> onTaskDeleted(task) }
     )
     Spacer(modifier = Modifier.height(16.dp))

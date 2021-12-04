@@ -92,6 +92,16 @@ class CustomerDetailViewModel @Inject constructor(
         }
     }
 
+    fun updateTaskDate(task: Task, stamp: Long) {
+        viewModelScope.launch {
+            val instant = InstantConverter.toInstant(stamp)
+            instant?.let {
+                val updated = task.copy(dueDate = instant)
+                taskDao.updateTask(updated)
+            }
+        }
+    }
+
     fun updateLastContactDate(stamp: Long) {
         viewModelScope.launch {
             val instant = InstantConverter.toInstant(stamp)

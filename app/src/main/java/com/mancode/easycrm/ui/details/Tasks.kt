@@ -7,20 +7,28 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Schedule
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.fragment.app.FragmentActivity
 import com.mancode.easycrm.db.Task
 import com.mancode.easycrm.ui.views.ExpandableCard
+import com.mancode.easycrm.ui.views.ScheduleButton
+import com.mancode.easycrm.utils.showDatePicker
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun TaskRow(task: Task, onTaskCheckedChanged: (Task) -> Unit, onTaskDeleted: (Task) -> Unit) {
+fun TaskRow(
+    task: Task,
+    onTaskCheckedChanged: (Task) -> Unit,
+    onTaskDateAdded: (Task, Long) -> Unit,
+    onTaskDeleted: (Task) -> Unit
+) {
     ExpandableCard(
         content = {
             Row(
@@ -47,13 +55,20 @@ fun TaskRow(task: Task, onTaskCheckedChanged: (Task) -> Unit, onTaskDeleted: (Ta
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.End
             ) {
-                IconButton(onClick = { /*TODO*/ }) {
-                    Image(
-                        imageVector = Icons.Default.Schedule,
-                        contentDescription = "",
-                        alpha = 0.5f
-                    )
-                }
+                val isExpanded = task.dueDate != null
+                val fragmentManager =
+                    (LocalContext.current as FragmentActivity).supportFragmentManager
+                ScheduleButton(
+                    onClick = {
+                        showDatePicker(
+                            fragmentManager = fragmentManager,
+                            instant = task.dueDate,
+                            onDateEntered = { stamp -> onTaskDateAdded(task, stamp) }
+                        )
+                    },
+                    expanded = isExpanded,
+                    instant = task.dueDate
+                )
                 IconButton(onClick = { onTaskDeleted(task) }) {
                     Image(
                         imageVector = Icons.Default.Delete,
@@ -96,6 +111,7 @@ fun AddTaskRow(onTaskAdded: (String) -> Unit) {
 fun TaskList(
     tasks: List<Task>,
     onTaskCheckedChanged: (Task) -> Unit,
+    onTaskDateAdded: (Task, Long) -> Unit,
     onTaskDeleted: (Task) -> Unit
 ) {
     Column {
@@ -103,6 +119,7 @@ fun TaskList(
             TaskRow(
                 task = it,
                 onTaskCheckedChanged = { task -> onTaskCheckedChanged(task) },
+                onTaskDateAdded = { task, stamp -> onTaskDateAdded(task, stamp) },
                 onTaskDeleted = { task -> onTaskDeleted(task) }
             )
             Spacer(modifier = Modifier.height(8.dp))
@@ -116,6 +133,7 @@ fun TaskRowPreview() {
     TaskRow(
         task = Task(id = 1, customerId = 1, description = "Opis zadania", done = true),
         onTaskCheckedChanged = {},
+        onTaskDateAdded = { _, _ -> },
         onTaskDeleted = {}
     )
 }
@@ -130,6 +148,6 @@ fun TaskListPreview() {
         Task(id = 4, customerId = 1, description = "Opis zadania 4", done = true),
         Task(id = 5, customerId = 1, description = "Opis zadania 5", done = false),
     )
-    TaskList(tasks = tasks, {}, {})
+    TaskList(tasks = tasks, {}, { _, _ -> }, {})
 }
 
