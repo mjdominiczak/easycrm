@@ -5,7 +5,6 @@ import androidx.compose.animation.core.animateDp
 import androidx.compose.animation.core.updateTransition
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.*
@@ -23,8 +22,8 @@ fun ExpandableCard(
     val transition = updateTransition(currentState)
     val cardElevation by transition.animateDp(label = "CardElevation") { state ->
         when (state) {
-            CardState.Expanded -> 4.dp
-            CardState.Collapsed -> 1.dp
+            CardState.Expanded -> 12.dp
+            CardState.Collapsed -> 4.dp
         }
     }
     Card(
@@ -35,9 +34,7 @@ fun ExpandableCard(
         elevation = cardElevation
     ) {
         Column(
-            modifier
-                .fillMaxWidth()
-                .padding(8.dp)
+            modifier = modifier.fillMaxWidth()
         ) {
             content()
             ExpandableContent(visible = currentState == CardState.Expanded) {

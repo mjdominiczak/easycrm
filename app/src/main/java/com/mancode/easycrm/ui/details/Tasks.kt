@@ -2,6 +2,7 @@ package com.mancode.easycrm.ui.details
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.filled.Done
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextDecoration
@@ -20,6 +22,7 @@ import com.mancode.easycrm.db.Task
 import com.mancode.easycrm.ui.views.ExpandableCard
 import com.mancode.easycrm.ui.views.ScheduleButton
 import com.mancode.easycrm.utils.showDatePicker
+import org.threeten.bp.Instant
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -31,22 +34,49 @@ fun TaskRow(
 ) {
     ExpandableCard(
         content = {
-            Row(
-                modifier = Modifier
-                    .height(32.dp)
-                    .fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+            val color = if (task.dueDate != null) {
+                if (task.dueDate.isBefore(Instant.now())) {
+                    Color.Red
+                } else {
+                    MaterialTheme.colors.secondaryVariant
+                }
+            } else {
+                Color.LightGray
+            }
+            Surface(
+                modifier = Modifier.fillMaxWidth(),
+                color = color,
+                shape = MaterialTheme.shapes.small,
             ) {
-                Checkbox(checked = task.done, onCheckedChange = { onTaskCheckedChanged(task) })
-                Spacer(modifier = Modifier.width(16.dp))
-                val style =
-                    if (task.done) TextStyle(textDecoration = TextDecoration.LineThrough)
-                    else TextStyle.Default
-                Text(
-                    modifier = Modifier.fillMaxWidth(),
-                    text = task.description,
-                    style = style
-                )
+                Surface(
+                    modifier = Modifier.padding(top = 4.dp),
+                    shape = MaterialTheme.shapes.small.copy(
+                        bottomStart = CornerSize(0.dp),
+                        bottomEnd = CornerSize(0.dp)
+                    ),
+                    color = MaterialTheme.colors.surface
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .padding(8.dp)
+                            .height(32.dp)
+                            .fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Checkbox(
+                            checked = task.done,
+                            onCheckedChange = { onTaskCheckedChanged(task) })
+                        Spacer(modifier = Modifier.width(16.dp))
+                        val style =
+                            if (task.done) TextStyle(textDecoration = TextDecoration.LineThrough)
+                            else TextStyle.Default
+                        Text(
+                            modifier = Modifier.fillMaxWidth(),
+                            text = task.description,
+                            style = style
+                        )
+                    }
+                }
             }
         },
         additionalContent = {
