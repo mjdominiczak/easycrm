@@ -28,4 +28,4 @@ Technologie stosowane w projekcie:
 
 ## Zrzuty ekranu
 
-<img src="https://github.com/mjdominiczak/easycrm/blob/master/screenshots/Screenshot_20220123_2330938.png?raw=true" alt="Zrzut 1" width="300"/> <img src="https://github.com/mjdominiczak/easycrm/blob/master/screenshots/Screenshot_20220123_2331507.png?raw=true" alt="Zrzut 2" width="300"/>
+<img src="https://github.com/mjdominiczak/easycrm/blob/master/screenshots/Screenshot_20220123_230938.png?raw=true" alt="Zrzut 1" width="300"/> <img src="https://github.com/mjdominiczak/easycrm/blob/master/screenshots/Screenshot_20220123_231507.png?raw=true" alt="Zrzut 2" width="300"/>
